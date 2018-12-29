@@ -52,14 +52,14 @@ export default {
     if (this.blockstack.isUserSignedIn()) {
       this.userData = this.blockstack.loadUserData()
       this.$store.commit('MUTATION_SET_PROFILE_DATA', this.userData)
+      this.$store.dispatch('ACTION_GET_IN_THEATRE_MOVIES')
+      this.$router.push({ name: 'Home', params: { type: 'in-theatres' } })
     } else if (this.blockstack.isSignInPending()) {
       this.blockstack.handlePendingSignIn()
         .then(() => {
           window.location = window.location.origin
         })
     }
-    this.$store.dispatch('ACTION_GET_IN_THEATRE_MOVIES')
-    this.$router.push({ name: 'Home', params: { type: 'in-theatres' } })
   }
 }
 </script>
