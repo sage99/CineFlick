@@ -1,6 +1,7 @@
 {
   "name": "CineFlick",
   "short_name": "CineFlick",
+  "start_url": "./index.html",
   "icons": [
     {
       "src": "https://raw.githubusercontent.com/sage99/CineFlick/master/public/L4_t.png",
@@ -13,7 +14,6 @@
       "type": "image/png"
     }
   ],
-  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#7e8996"

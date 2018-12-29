@@ -23,6 +23,14 @@
           <v-list-tile-title>Playlist</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
+      <v-list-tile three-lines @click="dummyFunction">
+        <v-list-tile-action>
+          <v-checkbox class="mt-3" color="blue" type="checkbox" v-model="dark"></v-checkbox>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>Dark Mode</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
       <!-- <v-list-tile @click="redirectToSettings">
         <v-list-tile-action>
           <v-icon>settings</v-icon>
@@ -50,10 +58,17 @@ import { mapGetters } from 'vuex'
 export default {
   computed: {
     ...mapGetters({
-      profileData: 'getProfileData'
+      profileData: 'getProfileData',
+      darkMode: 'darkMode'
     })
   },
+  watch: {
+    dark () {
+      this.$store.commit('MUTATION_SET_DARK_MODE', this.dark)
+    }
+  },
   data: () => ({
+    dark: false
   }),
   methods: {
     showProfile () {
@@ -69,6 +84,9 @@ export default {
       this.blockstack.signUserOut(window.location.href)
       window.location.href = '/'
     }
+  },
+  mounted () {
+    this.dark = this.darkMode
   }
 }
 </script>

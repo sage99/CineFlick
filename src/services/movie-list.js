@@ -1,7 +1,16 @@
 import HTTP from './http-handler'
-const moviesListService = {
-  getInTheatre: () => {
-    return HTTP.get('movie/now_playing', { params: { api_key: '13e556517a6530f85508fc4c4c6e1a7d', language: 'en-US' } })
+const movieService = {
+  getInTheatreMovies: (query) => {
+    return HTTP.get('movie/now_playing', { params: { language: 'en-US', ...query } })
+  },
+  getPopularMovies: (query) => {
+    return HTTP.get('movie/popular', { params: { language: 'en-US', ...query } })
+  },
+  getTopRatedMovies: (query) => {
+    return HTTP.get('movie/top_rated', { params: { language: 'en-US', ...query } })
+  },
+  getMovieDetails: (query) => {
+    return HTTP.get(`movie/${query.id}`, { params: { language: 'en-US', append_to_response: 'credits,videos,similar' } })
   }
 }
-export default moviesListService
+export default movieService

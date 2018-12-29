@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1 class="headline ml-5 font-weight-regular">Now Playing</h1>
-    <items-list :itemList="inTheatresMovies"></items-list>
+    <h1 class="headline ml-5 font-weight-regular">{{movies.title}}</h1>
+    <items-list :itemList="movies.data"></items-list>
   </div>
 </template>
 
@@ -15,9 +15,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      inTheatresMovies: 'getInTheatreMovies'
+      movies: 'getMovieList'
     })
-  }
+  },
+  data: () => ({
+    title: 'In Theatres'
+  })
 }
 </script>
 

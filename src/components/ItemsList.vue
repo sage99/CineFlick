@@ -2,7 +2,7 @@
   <v-container>
     <v-layout row wrap>
       <v-flex xs12 sm6  v-for="(item, index) in itemList" :key="index">
-        <v-card dark class="white--text ml-3 mt-2" >
+        <v-card class="ml-3 mt-2" :hover="true">
           <v-layout row>
             <v-flex xs12 sm5>
               <v-img
@@ -10,14 +10,14 @@
               contain
               ></v-img>
             </v-flex>
-            <v-flex ml-3 mt-2 xs12 sm7>
+            <v-flex ml-3 mt-2 xs12 sm7 >
               <v-layout row align-center justify-center mb-4>
                 <v-flex xs12 sm3>
                   <v-progress-circular
                     :rotate="-90"
                     :size="70"
                     :width="10"
-                    :value="80"
+                    :value="item.vote_average * 10"
                     :color="color(item.vote_average)"
                   >
                     {{ item.vote_average * 10 }}%
@@ -38,7 +38,7 @@
               </v-layout>
               <v-layout mt-5 mr-2>
                 <v-flex>
-                  <v-btn round block>more info <v-icon >keyboard_arrow_right</v-icon></v-btn>
+                  <v-btn @click="getDetails(item, index)" :loading="isLoading[index]" round block>more info <v-icon >keyboard_arrow_right</v-icon></v-btn>
                 </v-flex>
               </v-layout>
             </v-flex>
@@ -54,7 +54,8 @@ export default {
   name: 'ItemsList',
   props: ['itemList'],
   data: () => ({
-    appendedUrl: 'https://image.tmdb.org/t/p/w342'
+    appendedUrl: 'https://image.tmdb.org/t/p/w342',
+    isLoading: {}
   }),
   methods: {
     color (score) {
@@ -62,6 +63,11 @@ export default {
       if (finalScore >= 70) return 'success'
       else if (finalScore > 30 && finalScore < 70) return 'lime accent-2'
       else return 'red'
+    },
+    createobj (length) {
+      for (let i = 0; i < length; i++) {
+        this.$set(this.isLoading, i, false)
+      }
     },
     text_truncate (str, length, ending) {
       if (length == null) {
@@ -75,9 +81,16 @@ export default {
       } else {
         return str
       }
+    },
+    async getDetails (movie, index) {
+      this.isLoading[index] = true
+      await this.$store.dispatch('ACTION_GET_MOVIE_DETAILS', movie)
+      this.isLoading[index] = false
+      this.$router.push({ name: 'MovieDetails', params: { id: movie.id } })
     }
   },
   mounted () {
+    this.createobj(this.itemList.length)
     console.log(document.getElementsByClassName('v-content__wrap'))
     // .style.backgroundImage = 'https://www.themoviedb.org/assets/1/v4/marketing/deadpool-06f2a06d7a418ec887300397b6861383bf1e3b72f604ddd5f75bce170e81dce9.png'
   }
@@ -85,13 +98,24 @@ export default {
 </script>
 
 <style>
-/* .v-content__wrap {
-  background-image: url('https://image.tmdb.org/t/p/original/5A2bMlLfJrAfX9bqAibOL2gCruF.jpg');
-   background-image: url('../assets/images/background.jpg');
-   background-size: cover;
-   background-repeat:   no-repeat;
+.v-content__wrap {
+  /* background-image: url('https://image.tmdb.org/t/p/w780/5A2bMlLfJrAfX9bqAibOL2gCruF.jpg'); */
+   /* background-image: url('../assets/images/background.jpg'); */
+   /* background-size: cover; */
+   /* background-repeat: repeat-y;
    background-position: center center;
-   background-size:100% 100vh;
-   box-shadow:inset 0 0 0 2000px rgba(145, 27, 86, 0.1);
+   background-size:100% 100vh; */
+   /* box-shadow:inset 0 0 0 2000px rgba(0, 70, 139, 0.6); */
+   /* box-shadow:inset 0 0 0 2000px rgba(35, 38, 41, 0.6); */
+}
+/* .transparent {
+   background-color: rgba(255, 255, 255, 0.185)!important;
+   opacity: 0.9;
+   border-color: transparent!important;
+ } */
+ /* h1 {
+  background: -webkit-linear-gradient(#59C173,#a17fe0, #5D26C1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 } */
 </style>

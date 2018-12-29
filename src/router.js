@@ -1,16 +1,27 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
+import MovieDetails from '@/components/MovieDetails'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/movies/:type',
       name: 'Home',
       component: Home
+    },
+    {
+      path: '/movie/:id',
+      name: 'MovieDetails',
+      component: MovieDetails
     }
+    // {
+    //   path: '/po',
+    //   name: 'Home',
+    //   component: Home
+    // }
     // {
     //   path: '/about',
     //   name: 'about',
