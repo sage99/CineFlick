@@ -8,8 +8,8 @@
       <v-container fluid fill-height>
         <v-layout justify-center align-center>
           <v-flex shrink>
-            <Login v-if="!blockstack.isUserSignedIn()"></Login>
-            <router-view v-else/>
+            <!-- <Login v-if="!blockstack.isUserSignedIn()"></Login> -->
+            <router-view />
               <!-- <v-btn block >Sign In with blockstack</v-btn> -->
           </v-flex>
         </v-layout>
@@ -21,15 +21,15 @@
 <script>
 import Navbar from '@/components/Navbar'
 import Toolbar from '@/components/Toolbar'
-import Login from '@/components/Login'
+// import Login from '@/components/Login'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
   components: {
     Navbar,
-    Toolbar,
-    Login
+    Toolbar
+    // Login
   },
   computed: {
     ...mapGetters({
@@ -50,15 +50,34 @@ export default {
   },
   mounted () {
     if (this.blockstack.isUserSignedIn()) {
+      this.getWatchlist()
+      this.getFavourites()
       this.userData = this.blockstack.loadUserData()
       this.$store.commit('MUTATION_SET_PROFILE_DATA', this.userData)
-      this.$store.dispatch('ACTION_GET_IN_THEATRE_MOVIES')
-      this.$router.push({ name: 'Home', params: { type: 'in-theatres' } })
+      if (!this.$route.name) this.$router.push({ name: 'Home', params: { type: 'in-theatre' } })
     } else if (this.blockstack.isSignInPending()) {
       this.blockstack.handlePendingSignIn()
         .then(() => {
           window.location = window.location.origin
         })
+    } else {
+      this.$router.push({ name: 'Login' })
+    }
+  },
+  methods: {
+    getWatchlist () {
+      let fileObj = {
+        fileName: 'my_movie_watchlist.json',
+        options: { decrypt: true }
+      }
+      this.$store.dispatch('ACTION_GET_MOVIE_WATCHLIST', fileObj)
+    },
+    getFavourites () {
+      let fileObj = {
+        fileName: 'my_movie_favourites.json',
+        options: { decrypt: true }
+      }
+      this.$store.dispatch('ACTION_GET_MOVIE_FAVOURITES', fileObj)
     }
   }
 }

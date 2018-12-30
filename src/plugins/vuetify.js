@@ -37,7 +37,9 @@ import {
   VProgressCircular,
   VTooltip,
   VSwitch,
-  VCheckbox
+  VCheckbox,
+  VPagination,
+  VDialog
 } from 'vuetify'
 import 'vuetify/src/stylus/app.styl'
 
@@ -63,7 +65,9 @@ Vue.use(Vuetify, {
     VProgressCircular,
     VTooltip,
     VSwitch,
-    VCheckbox
+    VCheckbox,
+    VPagination,
+    VDialog
   },
   iconfont: 'md'
 })

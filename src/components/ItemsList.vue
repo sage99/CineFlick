@@ -2,7 +2,7 @@
   <v-container>
     <v-layout row wrap>
       <v-flex xs12 sm6  v-for="(item, index) in itemList" :key="index">
-        <v-card class="ml-3 mt-2" :hover="true">
+        <v-card class="ml-3 mt-2 br20" :hover="true">
           <v-layout row>
             <v-flex xs12 sm5>
               <v-img
@@ -38,25 +38,48 @@
               </v-layout>
               <v-layout mt-5 mr-2>
                 <v-flex>
-                  <v-btn @click="getDetails(item, index)" :loading="isLoading[index]" round block>more info <v-icon >keyboard_arrow_right</v-icon></v-btn>
+                  <v-btn :color="darkMode ? '' : 'primary'"  @click="getDetails(item, index)" :loading="isLoading[index]" round block>more info <v-icon >keyboard_arrow_right</v-icon></v-btn>
                 </v-flex>
               </v-layout>
             </v-flex>
           </v-layout>
         </v-card>
       </v-flex>
+      <v-flex xs12 sm4></v-flex>
+      <!-- <v-divider ></v-divider> -->
+      <v-flex xs12 sm4>
+        <v-pagination
+        v-if="showPagination"
+        total-visible="6"
+        :length="$route.params.type === 'in-theatre' ? 5 : totalPages"
+        v-model="page"
+        @input="getMoreMovies"
+      ></v-pagination>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'ItemsList',
-  props: ['itemList'],
+  props: ['itemList', 'showPagination', 'pageNumber', 'totalPages'],
+  computed: {
+    ...mapGetters({
+      darkMode: 'darkMode'
+    })
+  },
   data: () => ({
     appendedUrl: 'https://image.tmdb.org/t/p/w342',
-    isLoading: {}
+    isLoading: {},
+    page: 1
   }),
+  watch: {
+    pageNumber () {
+      this.page = this.pageNumber
+    }
+  },
   methods: {
     color (score) {
       let finalScore = score * 10
@@ -87,17 +110,28 @@ export default {
       await this.$store.dispatch('ACTION_GET_MOVIE_DETAILS', movie)
       this.isLoading[index] = false
       this.$router.push({ name: 'MovieDetails', params: { id: movie.id } })
+    },
+    getMoreMovies () {
+      if (this.$route.params.type === 'top-rated') {
+        this.$store.dispatch('ACTION_GET_TOP_RATED_MOVIES', { page: this.page })
+      } else if (this.$route.params.type === 'popular') {
+        this.$store.dispatch('ACTION_GET_POPULAR_MOVIES', { page: this.page })
+      } else {
+        this.$store.dispatch('ACTION_GET_IN_THEATRE_MOVIES', { page: this.page })
+      }
     }
   },
   mounted () {
+    this.page = this.pageNumber
     this.createobj(this.itemList.length)
-    console.log(document.getElementsByClassName('v-content__wrap'))
-    // .style.backgroundImage = 'https://www.themoviedb.org/assets/1/v4/marketing/deadpool-06f2a06d7a418ec887300397b6861383bf1e3b72f604ddd5f75bce170e81dce9.png'
   }
 }
 </script>
 
 <style>
+.br20 {
+  border-radius: 20px
+}
 .v-content__wrap {
   /* background-image: url('https://image.tmdb.org/t/p/w780/5A2bMlLfJrAfX9bqAibOL2gCruF.jpg'); */
    /* background-image: url('../assets/images/background.jpg'); */
