@@ -14,10 +14,12 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.bf1a499cea4c89e5ba301779e027bbc3.js"
+  "/precache-manifest.5a8beaedcedf3072d7f4dce3680ad93b.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "cine-flick"});
+
+workbox.skipWaiting();
 
 /**
  * The workboxSW.precacheAndRoute() method efficiently caches and responds to
