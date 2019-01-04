@@ -3,7 +3,7 @@
     <v-toolbar-side-icon class="hidden-sm-and-up" @click="$emit('toggleDrawer')"></v-toolbar-side-icon>
     <v-toolbar-title><a class="title1" @click="getMovies('IN_THEATRE_MOVIES', 'in-theatre')">CineFlick</a></v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-menu open-on-hover transition="slide-y-transition" bottom min-width="20">
+    <v-menu transition="slide-y-transition" bottom min-width="20">
       <v-btn flat slot="activator">
         Watch List
       </v-btn>
@@ -17,7 +17,7 @@
       </v-list>
     </v-menu>
 
-    <v-menu open-on-hover transition="slide-y-transition" bottom min-width="20">
+    <v-menu transition="slide-y-transition" bottom min-width="20">
       <v-btn flat slot="activator">
         Favourites
       </v-btn>
@@ -31,7 +31,7 @@
       </v-list>
     </v-menu>
 
-    <v-menu open-on-hover transition="slide-y-transition" bottom min-width="20">
+    <v-menu transition="slide-y-transition" bottom min-width="20">
       <v-btn flat slot="activator">
         Movies
       </v-btn>
@@ -48,7 +48,7 @@
       </v-list>
     </v-menu>
 
-    <v-menu open-on-hover transition="slide-y-transition" bottom min-width="20">
+    <v-menu transition="slide-y-transition" bottom min-width="20">
       <v-btn flat slot="activator">
         TV Shows
       </v-btn>

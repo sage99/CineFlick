@@ -6,9 +6,12 @@ import Login from '@/components/Login'
 import MoviesFavourites from '@/components/MoviesFavourites'
 import MoviesWatchlist from '@/components/MoviesWatchlist'
 
+// const blockstack = window.blockstack
 Vue.use(Router)
-export default new Router({
+const router = new Router({
   routes: [
+    // { path: '/', redirect: blockstack.isUserSignedIn() ? '/movies/in-theatre' : '/login' },
+    // {path: '/login', redirect: window.blockstack.isUserSignedIn() ? '/movies/in-theatre' : '/login'},
     {
       path: '/login',
       name: 'Login',
@@ -49,3 +52,13 @@ export default new Router({
     // }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.name === 'Login' && window.blockstack.isUserSignedIn()) {
+    router.push({ name: 'Home', params: { type: 'in-theatre' } })
+  } else if (to.name === 'Home' && !window.blockstack.isUserSignedIn()) {
+    router.push({ name: 'Login' })
+  } else next()
+})
+
+export default router
