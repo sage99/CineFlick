@@ -36,6 +36,7 @@ export default {
   methods: {
     signIn () {
       const origin = window.location.origin
+      console.log(origin)
       this.blockstack.redirectToSignIn(origin, `${origin}/manifest.json`, ['store_write', 'publish_data'])
       // this.blockstack.redirectToSignIn()
     }
