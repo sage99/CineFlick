@@ -25,12 +25,13 @@
 
                 </v-flex>
                 <v-flex ml-2 sm9 xs12>
-                  <div class="title font-weight-regular">{{item.original_title}}</div>
-                  <div class="font-weight-light">{{new Date(item.release_date).toGMTString().split(" ").splice(0,4).join(" ")}}</div>
+                  <div class="title font-weight-regular">{{type === 'TV' ? item.name : item.title}}</div>
+                  <div v-if="type === 'TV'" class="font-weight-light">({{item.first_air_date.split('-')[0]}})</div>
+                  <div v-else class="font-weight-light">{{new Date(item.release_date).toGMTString().split(" ").splice(0,4).join(" ")}}</div>
                 </v-flex>
               </v-layout>
               <v-layout>
-                <v-flex >
+                <v-flex class="mr-1" >
                   <div>
                     <span><v-subheader class="pl-0" >Overview:</v-subheader></span>{{text_truncate(item.overview)}}
                   </div>
@@ -38,7 +39,7 @@
               </v-layout>
               <v-layout mt-5 mr-2>
                 <v-flex>
-                  <v-btn :color="darkMode ? '' : 'primary'"  @click="getDetails(item, index)" :loading="isLoading[index]" round block>more info <v-icon >keyboard_arrow_right</v-icon></v-btn>
+                  <v-btn :color="darkMode ? '' : 'primary'"  @click="type === 'TV' ? getTVShowDetails(item, index) :getMovieDetails(item, index)" :loading="isLoading[index]" round block>more info <v-icon >keyboard_arrow_right</v-icon></v-btn>
                 </v-flex>
               </v-layout>
             </v-flex>
@@ -53,7 +54,7 @@
         total-visible="6"
         :length="$route.params.type === 'in-theatre' ? 5 : totalPages"
         v-model="page"
-        @input="getMoreMovies"
+        @input="type === 'TV' ? getMoreTVShows() : getMoreMovies()"
       ></v-pagination>
       </v-flex>
     </v-layout>
@@ -64,7 +65,7 @@
 import { mapGetters } from 'vuex'
 export default {
   name: 'ItemsList',
-  props: ['itemList', 'showPagination', 'pageNumber', 'totalPages'],
+  props: ['itemList', 'showPagination', 'pageNumber', 'totalPages', 'type'],
   computed: {
     ...mapGetters({
       darkMode: 'darkMode'
@@ -105,11 +106,17 @@ export default {
         return str
       }
     },
-    async getDetails (movie, index) {
+    async getMovieDetails (movie, index) {
       this.isLoading[index] = true
       await this.$store.dispatch('ACTION_GET_MOVIE_DETAILS', movie)
       this.isLoading[index] = false
       this.$router.push({ name: 'MovieDetails', params: { id: movie.id } })
+    },
+    async getTVShowDetails (TVshow, index) {
+      this.isLoading[index] = true
+      await this.$store.dispatch('ACTION_GET_TV_SHOW_DETAILS', TVshow)
+      this.isLoading[index] = false
+      this.$router.push({ name: 'TVShowDetails', params: { id: TVshow.id } })
     },
     getMoreMovies () {
       if (this.$route.params.type === 'top-rated') {
@@ -118,6 +125,17 @@ export default {
         this.$store.dispatch('ACTION_GET_POPULAR_MOVIES', { page: this.page })
       } else {
         this.$store.dispatch('ACTION_GET_IN_THEATRE_MOVIES', { page: this.page })
+      }
+    },
+    getMoreTVShows () {
+      if (this.$route.params.type === 'top-rated') {
+        this.$store.dispatch('ACTION_GET_TOP_RATED_TVSHOWS', { page: this.page })
+      } else if (this.$route.params.type === 'popular') {
+        this.$store.dispatch('ACTION_GET_POPULAR_TVSHOWS', { page: this.page })
+      } else if (this.$route.params && this.$route.params.type === 'on-the-air') {
+        this.$store.dispatch('ACTION_GET_ON_AIR_TVSHOWS', { page: this.page })
+      } else {
+        this.$store.dispatch('ACTION_GET_AIRING_TODAY_TVSHOWS', { page: this.page })
       }
     }
   },

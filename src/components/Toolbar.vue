@@ -11,8 +11,8 @@
         <v-list-tile @click="getMovieWatchlist">
           <v-list-tile-title>Movies</v-list-tile-title>
         </v-list-tile>
-        <v-list-tile >
-          <v-list-tile-title>TV Shows (Coming Soon...)</v-list-tile-title>
+        <v-list-tile @click="getTVWatchlist">
+          <v-list-tile-title>TV Shows</v-list-tile-title>
         </v-list-tile>
       </v-list>
     </v-menu>
@@ -25,8 +25,8 @@
         <v-list-tile @click="getFavouriteMovies">
           <v-list-tile-title>Movies</v-list-tile-title>
         </v-list-tile>
-        <v-list-tile>
-          <v-list-tile-title>TV Shows (Coming Soon...)</v-list-tile-title>
+        <v-list-tile @click="getFavouriteTVShows">
+          <v-list-tile-title>TV Shows</v-list-tile-title>
         </v-list-tile>
       </v-list>
     </v-menu>
@@ -53,38 +53,54 @@
         TV Shows
       </v-btn>
       <v-list>
-        <v-list-tile>
-          <v-list-tile-title>In Theaters (Coming Soon...)</v-list-tile-title>
+        <v-list-tile @click="getTVShows('ON_AIR_TVSHOWS', 'on-the-air')">
+          <v-list-tile-title>On TV</v-list-tile-title>
         </v-list-tile>
-        <v-list-tile>
-          <v-list-tile-title>Popular (Coming Soon...)</v-list-tile-title>
+        <v-list-tile @click="getTVShows('AIRING_TODAY_TVSHOWS', 'airing-today')">
+          <v-list-tile-title>Airing Today</v-list-tile-title>
         </v-list-tile>
-        <v-list-tile>
-          <v-list-tile-title>Top Rated (Coming Soon...)</v-list-tile-title>
+        <v-list-tile @click="getTVShows('POPULAR_TVSHOWS', 'popular')">
+          <v-list-tile-title>Popular</v-list-tile-title>
+        </v-list-tile>
+        <v-list-tile @click="getTVShows('TOP_RATED_TVSHOWS', 'top-rated')">
+          <v-list-tile-title>Top Rated</v-list-tile-title>
         </v-list-tile>
       </v-list>
     </v-menu>
     <avatar-menu></avatar-menu>
+    <Player></Player>
   </v-toolbar>
 </template>
 
 <script>
 import AvatarMenu from '@/components/AvatarMenu'
+import Player from '@/components/Player'
 export default {
   name: 'Toolbar',
   components: {
-    AvatarMenu
+    AvatarMenu,
+    Player
   },
   methods: {
     getMovies (action, type) {
       this.$store.dispatch(`ACTION_GET_${action}`, { page: 1 })
       this.$router.push({ name: 'Home', params: { type: type } })
     },
+    getTVShows (action, type) {
+      this.$store.dispatch(`ACTION_GET_${action}`, { page: 1 })
+      this.$router.push({ name: 'TVShows', params: { type: type } })
+    },
     getMovieWatchlist () {
       this.$router.push({ name: 'MoviesWatchlist' })
     },
     getFavouriteMovies () {
       this.$router.push({ name: 'FavouriteMovies' })
+    },
+    getTVWatchlist () {
+      this.$router.push({ name: 'TVWatchlist' })
+    },
+    getFavouriteTVShows () {
+      this.$router.push({ name: 'TVFavourites' })
     }
   }
 }

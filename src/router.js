@@ -5,6 +5,10 @@ import MovieDetails from '@/components/MovieDetails'
 import Login from '@/components/Login'
 import MoviesFavourites from '@/components/MoviesFavourites'
 import MoviesWatchlist from '@/components/MoviesWatchlist'
+import TVShows from '@/components/TVShowsList'
+import TVShowDetails from '@/components/TVShowDetails'
+import TVFavourites from '@/components/TVFavourites'
+import TVWatchlist from '@/components/TVWatchlist'
 
 // const blockstack = window.blockstack
 Vue.use(Router)
@@ -23,9 +27,19 @@ const router = new Router({
       component: Home
     },
     {
+      path: '/tv/:type',
+      name: 'TVShows',
+      component: TVShows
+    },
+    {
       path: '/movie/:id',
       name: 'MovieDetails',
       component: MovieDetails
+    },
+    {
+      path: '/tv/:id',
+      name: 'TVShowDetails',
+      component: TVShowDetails
     },
     {
       path: '/favourite-movies',
@@ -36,6 +50,16 @@ const router = new Router({
       path: '/movie-watchlist',
       name: 'MoviesWatchlist',
       component: MoviesWatchlist
+    },
+    {
+      path: '/favourite-tv-shows',
+      name: 'TVFavourites',
+      component: TVFavourites
+    },
+    {
+      path: '/tv-watchlist',
+      name: 'TVWatchlist',
+      component: TVWatchlist
     }
     // {
     //   path: '/po',

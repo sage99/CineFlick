@@ -50,8 +50,10 @@ export default {
   },
   mounted () {
     if (this.blockstack.isUserSignedIn()) {
-      this.getWatchlist()
-      this.getFavourites()
+      this.getMovieWatchlist()
+      this.getMovieFavourites()
+      this.getTVWatchlist()
+      this.getTVFavourites()
       this.userData = this.blockstack.loadUserData()
       this.$store.commit('MUTATION_SET_PROFILE_DATA', this.userData)
       if (!this.$route.name) this.$router.push({ name: 'Home', params: { type: 'in-theatre' } })
@@ -65,19 +67,33 @@ export default {
     }
   },
   methods: {
-    getWatchlist () {
-      let fileObj = {
+    getMovieWatchlist () {
+      let fileObjMovie = {
         fileName: 'my_movie_watchlist.json',
         options: { decrypt: true }
       }
-      this.$store.dispatch('ACTION_GET_MOVIE_WATCHLIST', fileObj)
+      this.$store.dispatch('ACTION_GET_MOVIE_WATCHLIST', fileObjMovie)
     },
-    getFavourites () {
-      let fileObj = {
+    getMovieFavourites () {
+      let fileObjMovie = {
         fileName: 'my_movie_favourites.json',
         options: { decrypt: true }
       }
-      this.$store.dispatch('ACTION_GET_MOVIE_FAVOURITES', fileObj)
+      this.$store.dispatch('ACTION_GET_MOVIE_FAVOURITES', fileObjMovie)
+    },
+    getTVWatchlist () {
+      let fileObjTV = {
+        fileName: 'my_tv_watchlist.json',
+        options: { decrypt: true }
+      }
+      this.$store.dispatch('ACTION_GET_MOVIE_WATCHLIST', fileObjTV)
+    },
+    getTVFavourites () {
+      let fileObjTV = {
+        fileName: 'my_tv_favourites.json',
+        options: { decrypt: true }
+      }
+      this.$store.dispatch('ACTION_GET_MOVIE_FAVOURITES', fileObjTV)
     }
   }
 }

@@ -6,6 +6,8 @@ import store from './store/store'
 import './registerServiceWorker'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import VueYouTubeEmbed from 'vue-youtube-embed'
+Vue.use(VueYouTubeEmbed)
 
 Vue.config.productionTip = false
 Vue.prototype.dummyFunction = () => {}

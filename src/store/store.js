@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import profileHandler from './profile-handler'
 import movieHandler from './movie-list-handler'
 import storageHandler from './storage-handler'
+import TVHandler from './tv-handler'
 
 Vue.use(Vuex)
 
@@ -10,7 +11,8 @@ export default new Vuex.Store({
   modules: {
     profileHandler,
     movieHandler,
-    storageHandler
+    storageHandler,
+    TVHandler
   },
   state: {
     darkMode: true

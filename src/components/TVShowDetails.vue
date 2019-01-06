@@ -1,20 +1,20 @@
 <template>
-  <v-container v-if="movieDetails && Object.keys(movieDetails).length > 0" class="white--text">
+  <v-container v-if="TVShowDetails && Object.keys(TVShowDetails).length > 0" class="white--text">
     <v-layout row wrap class="mb-5">
       <v-flex xs3>
-        <v-img :src='appendUrl + movieDetails.poster_path'></v-img>
+        <v-img :src='appendUrl + TVShowDetails.poster_path'></v-img>
       </v-flex>
       <v-flex class='ml-5' xs7>
-        <h1 class="mt-3 mb-3 display-2">{{movieDetails.original_title}} <span class="headline">({{new Date(movieDetails.release_date).getFullYear()}})</span></h1>
-        <!-- <h3>{{new Date(movieDetails.release_date).toGMTString().split(" ").splice(0,4).join(" ")}}</h3> -->
+        <h1 class="mt-3 mb-3 display-2">{{TVShowDetails.name}} <span class="headline">({{new Date(TVShowDetails.first_air_date).getFullYear()}})</span></h1>
+        <!-- <h3>{{new Date(TVShowDetails.release_date).toGMTString().split(" ").splice(0,4).join(" ")}}</h3> -->
         <v-progress-circular
           :rotate='-90'
           :size='70'
           :width='10'
-          :value='movieDetails.vote_average * 10'
-          :color='color(movieDetails.vote_average)'
+          :value='TVShowDetails.vote_average * 10'
+          :color='color(TVShowDetails.vote_average)'
         >
-          {{ movieDetails.vote_average * 10 }}%
+          {{ TVShowDetails.vote_average * 10 }}%
         </v-progress-circular>
         <span class="body-2 ml-2">User Score</span>
         <v-tooltip bottom>
@@ -24,7 +24,7 @@
           <span>Add to playlist or Create one (Coming Soon...)</span>
         </v-tooltip>
 
-        <v-tooltip v-if="!watchlistMovieObj[movieDetails.id]" bottom>
+        <v-tooltip v-if="!watchlistTVObj[TVShowDetails.id]" bottom>
           <v-btn @click="addToWatchlist" slot="activator" dark outline fab>
             <v-icon>bookmark_border</v-icon>
           </v-btn>
@@ -38,7 +38,7 @@
           <span>Remove from Watchlist</span>
         </v-tooltip>
 
-        <v-tooltip v-if="!favMovieObj[movieDetails.id]" bottom>
+        <v-tooltip v-if="!favTVObj[TVShowDetails.id]" bottom>
           <v-btn @click="addToFavourites" outline fab slot="activator" dark>
             <v-icon >favorite_border</v-icon>
           </v-btn>
@@ -52,8 +52,8 @@
           <span>Remove from Favourites</span>
         </v-tooltip>
 
-        <v-tooltip v-if="movieDetails.videos.results.length > 0" right>
-          <v-btn @click="eventBus.$emit('playTrailer', {videoid: movieDetails.videos.results[movieDetails.videos.results.length - 1].key})" outline fab slot="activator" dark>
+        <v-tooltip v-if="TVShowDetails.videos.results.length > 0" right>
+          <v-btn @click="eventBus.$emit('playTrailer', {videoid: TVShowDetails.videos.results[0].key})" outline fab slot="activator" dark>
             <v-icon>play_arrow</v-icon>
           </v-btn>
           <span>Play Trailer</span>
@@ -65,10 +65,10 @@
           <span>Trailer not available.</span>
         </v-tooltip>
         <v-subheader class='pl-0 white--text'>Overview:</v-subheader>
-        <p>{{movieDetails.overview}}</p>
+        <p>{{TVShowDetails.overview}}</p>
         <v-layout  row wrap>
-          <v-flex xs12><h1 class="headline">Featured Crew</h1></v-flex>
-          <v-flex class="mt-2" xs4 v-for="(item, index) in movieDetails.credits.crew.slice(0,6)" :key="index" >
+          <v-flex xs12><h1 class="headline">Stats</h1></v-flex>
+          <v-flex class="mt-2" xs4 >
             <!-- <v-card> -->
               <!-- <v-layout>
                 <v-flex xs4>
@@ -90,18 +90,26 @@
               <!-- <v-card-content> -->
               <!-- </v-card-content> -->
               <!-- <v-img contain :src="appendProfileUrl+item.profile_path"></v-img> -->
-                <h2 class="subheading">{{item.name}}</h2>
-                <h3 class="caption">{{item.department}}</h3>
+                <h2 class="subheading">{{TVShowDetails.number_of_episodes}}</h2>
+                <h3 class="caption">Episode Count</h3>
             <!-- </v-card> -->
+          </v-flex>
+          <v-flex class="mt-2" xs4 >
+            <h2 class="subheading">{{TVShowDetails.number_of_seasons}}</h2>
+            <h3 class="caption">Total Seasons</h3>
+          </v-flex>
+          <v-flex class="mt-2" xs4 >
+            <h2 class="subheading">{{TVShowDetails.first_air_date}}</h2>
+            <h3 class="caption">First Air Date</h3>
           </v-flex>
         </v-layout>
       </v-flex>
     </v-layout>
     <v-divider></v-divider>
-    <v-layout v-if="movieDetails.similar.results.length > 0" justify-center align-center class="mt-5" row wrap>
-      <h1 class="mt-3">Similar Movies</h1>
+    <v-layout v-if="TVShowDetails.similar.results.length > 0" justify-center align-center class="mt-5" row wrap>
+      <h1 class="mt-3 font-weight-light">Recommendations</h1>
       <v-flex s12 >
-        <items-list :showPagination="false" :itemList="movieDetails.similar.results.slice(0,6)" ></items-list>
+        <items-list :showPagination="false" type="TV" :itemList="TVShowDetails.similar.results.slice(0,6)" ></items-list>
       </v-flex>
     </v-layout>
   </v-container>
@@ -112,15 +120,15 @@ import { eventBus } from '@/main'
 import { mapGetters } from 'vuex'
 import ItemsList from './ItemsList'
 export default {
-  name: 'MovieDetails',
+  name: 'TVShowDetails',
   components: { ItemsList },
   computed: {
     ...mapGetters({
-      movieDetails: 'getMovieDetails',
-      movieWatchlist: 'getMovieWatchlist',
-      movieFavourites: 'getMovieFavourites',
-      watchlistMovieObj: 'getWatchlistMovieObj',
-      favMovieObj: 'getFavMovieObj'
+      TVShowDetails: 'getTVShowDetails',
+      TVWatchlist: 'getTVWatchlist',
+      TVFavourites: 'getTVFavourites',
+      watchlistTVObj: 'getWatchlistTVObj',
+      favTVObj: 'getFavTVObj'
     })
   },
   data: () => ({
@@ -132,9 +140,9 @@ export default {
   }),
   watch: {
     deep: true,
-    movieDetails () {
+    TVShowDetails () {
       window.scroll(0, 0)
-      let url = `https://image.tmdb.org/t/p/w1280/${this.movieDetails.backdrop_path}`
+      let url = `https://image.tmdb.org/t/p/w1280/${this.TVShowDetails.backdrop_path}`
       let el = document.getElementsByClassName('v-content__wrap')[0]
       el.style['background-image'] = `url(${url})`
     }
@@ -144,40 +152,40 @@ export default {
       this.playTrailer = true
     },
     addToWatchlist () {
-      let data = [this.movieDetails, ...this.movieWatchlist]
+      let data = [this.TVShowDetails, ...this.TVWatchlist]
       let fileObj = {
-        fileName: 'my_movie_watchlist.json',
+        fileName: 'my_tv_watchlist.json',
         data: data,
         options: { encrypt: true }
       }
-      this.$store.dispatch('ACTION_SET_MOVIE_WATCHLIST', fileObj)
+      this.$store.dispatch('ACTION_SET_TV_WATCHLIST', fileObj)
     },
     removeFromWatchlist () {
-      let movies = this.movieWatchlist.filter(item => item.id !== this.movieDetails.id)
+      let TVShows = this.TVWatchlist.filter(item => item.id !== this.TVShowDetails.id)
       let fileObj = {
-        fileName: 'my_movie_watchlist.json',
-        data: movies,
+        fileName: 'my_tv_watchlist.json',
+        data: [...TVShows],
         options: { encrypt: true }
       }
-      this.$store.dispatch('ACTION_SET_MOVIE_WATCHLIST', fileObj)
+      this.$store.dispatch('ACTION_SET_TV_WATCHLIST', fileObj)
     },
     addToFavourites () {
-      let data = [this.movieDetails, ...this.movieFavourites]
+      let data = [this.TVShowDetails, ...this.TVFavourites]
       let fileObj = {
-        fileName: 'my_movie_favourites.json',
+        fileName: 'my_tv_favourites.json',
         data: data,
         options: { encrypt: true }
       }
-      this.$store.dispatch('ACTION_SET_MOVIE_FAVOURITES', fileObj)
+      this.$store.dispatch('ACTION_SET_TV_FAVOURITES', fileObj)
     },
     removeFromFavourites () {
-      let movies = this.movieFavourites.filter(item => item.id !== this.movieDetails.id)
+      let TVShows = this.TVFavourites.filter(item => item.id !== this.TVShowDetails.id)
       let fileObj = {
-        fileName: 'my_movie_favourites.json',
-        data: [...movies],
+        fileName: 'my_tv_favourites.json',
+        data: [...TVShows],
         options: { encrypt: true }
       }
-      this.$store.dispatch('ACTION_SET_MOVIE_FAVOURITES', fileObj)
+      this.$store.dispatch('ACTION_SET_TV_FAVOURITES', fileObj)
     },
     color (score) {
       let finalScore = score * 10
@@ -188,7 +196,7 @@ export default {
   },
   mounted () {
     window.scroll(0, 0)
-    let url = `https://image.tmdb.org/t/p/w1280/${this.movieDetails.backdrop_path}`
+    let url = `https://image.tmdb.org/t/p/w1280/${this.TVShowDetails.backdrop_path}`
     let el = document.getElementsByClassName('v-content__wrap')[0]
     el.style['background-image'] = `url(${url})`
     el.style['background-size'] = '100% 100vh'
@@ -203,7 +211,7 @@ export default {
     el.style['box-shadow'] = 'initial'
   },
   created () {
-    if (!(this.movieDetails && Object.keys(this.movieDetails).length > 0)) {
+    if (!(this.TVShowDetails && Object.keys(this.TVShowDetails).length > 0)) {
       if (this.$route.params.id) this.$store.dispatch('ACTION_GET_MOVIE_DETAILS', { id: this.$route.params.id })
       else this.$router.push({ name: 'Home' })
     }
