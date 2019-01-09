@@ -12,7 +12,7 @@
           <v-icon>person</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>Profile (coming soon..)</v-list-tile-title>
+          <v-list-tile-title>Profile</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
       <v-list-tile @click="dummyFunction">
@@ -75,7 +75,7 @@ export default {
       // this.$store.commit('MUTATION_SET_USER')
       // this.$store.commit('MUTATION_SET_SEARCH_STATE', false)
       // this.$store.commit('MUTATION_SET_SEARCH_RESULT', [])
-      // this.$router.push({ name: 'Profile', params: { id: 'my-profile' } })
+      this.$router.push({ name: 'Profile' })
     },
     // redirectToSettings () {
     //   this.$router.push({name: 'Settings'})

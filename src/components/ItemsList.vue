@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-layout row wrap>
-      <v-flex xs12 sm6  v-for="(item, index) in itemList" :key="index">
+      <v-flex xs12 sm6 xl4  v-for="(item, index) in itemList" :key="index">
         <v-card class="ml-3 mt-2 br20" :hover="true">
           <v-layout row>
             <v-flex xs12 sm5>

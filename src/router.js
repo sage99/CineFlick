@@ -9,6 +9,7 @@ import TVShows from '@/components/TVShowsList'
 import TVShowDetails from '@/components/TVShowDetails'
 import TVFavourites from '@/components/TVFavourites'
 import TVWatchlist from '@/components/TVWatchlist'
+import Profile from '@/components/Profile'
 
 // const blockstack = window.blockstack
 Vue.use(Router)
@@ -60,6 +61,11 @@ const router = new Router({
       path: '/tv-watchlist',
       name: 'TVWatchlist',
       component: TVWatchlist
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: Profile
     }
     // {
     //   path: '/po',

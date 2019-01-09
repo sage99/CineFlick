@@ -68,18 +68,15 @@
       </v-list>
     </v-menu>
     <avatar-menu></avatar-menu>
-    <Player></Player>
   </v-toolbar>
 </template>
 
 <script>
 import AvatarMenu from '@/components/AvatarMenu'
-import Player from '@/components/Player'
 export default {
   name: 'Toolbar',
   components: {
-    AvatarMenu,
-    Player
+    AvatarMenu
   },
   methods: {
     getMovies (action, type) {

@@ -2,7 +2,7 @@
   <v-dialog :max-width="width" v-model="playTrailer">
     <v-btn class="cl" fab top right light small @click="close" ><v-icon>close</v-icon></v-btn>
     <div class="video_wrapper">
-      <youtube  :player-width="size.width" :player-height="size.height" :player-vars="{autoplay: 1}" :video-id="videoid" @ready="ready" @playing="playing"></youtube>
+      <youtube  :player-width="playerSize.width" :player-height="playerSize.height" :player-vars="{autoplay: 1}" :video-id="videoid" @ready="ready" @playing="playing"></youtube>
     </div>
   </v-dialog>
 </template>
@@ -13,12 +13,17 @@ export default {
   name: 'Player',
   data: () => ({
     playTrailer: false,
-    videoid: '',
-    size: {}
+    videoid: ''
   }),
   computed: {
     width () {
       return window.outerWidth * 0.74
+    },
+    playerSize () {
+      return {
+        width: window.outerWidth * 0.7,
+        height: window.outerWidth * 0.38
+      }
     }
   },
   watch: {

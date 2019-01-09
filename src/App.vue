@@ -109,6 +109,9 @@ export default {
 //   background-position: center center;
 //   box-shadow:inset 0 0 0 2000px rgba(65, 63, 64, 0.9);
 // }
+.theme--light.application {
+  background: #eee;
+}
 body {
   font-family: 'Play', sans-serif !important;
 }
