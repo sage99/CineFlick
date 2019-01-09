@@ -4,13 +4,14 @@
       <Navbar class="hidden-sm-and-up" :drawer="drawer"></Navbar>
       <toolbar :dark="darkMode" @toggleDrawer="drawer = !drawer"></toolbar>
     </div>
-    <v-content id="backImage" :class="!blockstack.isUserSignedIn() ? res : ''">
+    <v-content class="!blockstack.isUserSignedIn() ? res : ''">
       <v-container fluid fill-height>
         <v-layout justify-center align-center>
           <v-flex shrink>
             <!-- <Login v-if="!blockstack.isUserSignedIn()"></Login> -->
             <router-view />
               <!-- <v-btn block >Sign In with blockstack</v-btn> -->
+            <Player></Player>
           </v-flex>
         </v-layout>
       </v-container>
@@ -22,13 +23,15 @@
 import Navbar from '@/components/Navbar'
 import Toolbar from '@/components/Toolbar'
 // import Login from '@/components/Login'
+import Player from '@/components/Player'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
   components: {
     Navbar,
-    Toolbar
+    Toolbar,
+    Player
     // Login
   },
   computed: {

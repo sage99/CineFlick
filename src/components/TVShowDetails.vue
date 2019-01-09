@@ -53,7 +53,7 @@
         </v-tooltip>
 
         <v-tooltip v-if="TVShowDetails.videos.results.length > 0" right>
-          <v-btn @click="eventBus.$emit('playTrailer', {videoid: TVShowDetails.videos.results[0].key})" outline fab slot="activator" dark>
+          <v-btn @click="eventBus.$emit('playTrailer', {videoid: TVShowDetails.videos.results[0].key, size: playerSize})" outline fab slot="activator" dark>
             <v-icon>play_arrow</v-icon>
           </v-btn>
           <span>Play Trailer</span>
@@ -129,7 +129,13 @@ export default {
       TVFavourites: 'getTVFavourites',
       watchlistTVObj: 'getWatchlistTVObj',
       favTVObj: 'getFavTVObj'
-    })
+    }),
+    playerSize () {
+      return {
+        width: window.outerWidth * 0.8,
+        height: window.outerHeight * 0.6
+      }
+    }
   },
   data: () => ({
     appendUrl: 'https://image.tmdb.org/t/p/w342/',

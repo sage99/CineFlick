@@ -1,9 +1,10 @@
 <template>
-  <div>
-    <v-dialog max-width="960" v-model="playTrailer" class="align-center justify-content">
-      <youtube class="pb-0" player-width="960" player-height="540" :player-vars="{autoplay: 1}" :video-id="videoid" @ready="ready" @playing="playing"></youtube>
-    </v-dialog>
-  </div>
+  <v-dialog :max-width="width" v-model="playTrailer">
+    <v-btn class="cl" fab top right light small @click="close" ><v-icon>close</v-icon></v-btn>
+    <div class="video_wrapper">
+      <youtube  :player-width="size.width" :player-height="size.height" :player-vars="{autoplay: 1}" :video-id="videoid" @ready="ready" @playing="playing"></youtube>
+    </div>
+  </v-dialog>
 </template>
 
 <script>
@@ -12,8 +13,14 @@ export default {
   name: 'Player',
   data: () => ({
     playTrailer: false,
-    videoid: ''
+    videoid: '',
+    size: {}
   }),
+  computed: {
+    width () {
+      return window.outerWidth * 0.74
+    }
+  },
   watch: {
     playTrailer () {
       if (!this.playTrailer) {
@@ -24,6 +31,7 @@ export default {
   mounted () {
     eventBus.$on('playTrailer', data => {
       this.playTrailer = true
+      this.size = data.size
       this.videoid = data.videoid
     })
   },
@@ -32,6 +40,10 @@ export default {
     this.player.stopVideo()
   },
   methods: {
+    close () {
+      this.stop()
+      this.playTrailer = !this.playTrailer
+    },
     ready (event) {
       this.player = event.target
     },
@@ -54,6 +66,15 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.cl {
+  position: absolute;
+  right: 14%;
+  z-index: 999;
+}
 
+.video_wrapper {
+  position: absolute;
+  top: 3em;
+}
 </style>

@@ -53,7 +53,7 @@
         </v-tooltip>
 
         <v-tooltip v-if="movieDetails.videos.results.length > 0" right>
-          <v-btn @click="eventBus.$emit('playTrailer', {videoid: movieDetails.videos.results[movieDetails.videos.results.length - 1].key})" outline fab slot="activator" dark>
+          <v-btn @click="eventBus.$emit('playTrailer', {videoid: movieDetails.videos.results[movieDetails.videos.results.length - 1].key, size: playerSize})" outline fab slot="activator" dark>
             <v-icon>play_arrow</v-icon>
           </v-btn>
           <span>Play Trailer</span>
@@ -121,7 +121,22 @@ export default {
       movieFavourites: 'getMovieFavourites',
       watchlistMovieObj: 'getWatchlistMovieObj',
       favMovieObj: 'getFavMovieObj'
-    })
+    }),
+    playerSize () {
+      return {
+        width: window.outerWidth * 0.7,
+        height: window.outerWidth * 0.38
+      }
+    }
+    // imageHeight () {
+    //   switch (this.$vuetify.breakpoint.name) {
+    //     case 'xs': return '220px'
+    //     case 'sm': return '400px'
+    //     case 'md': return '500px'
+    //     case 'lg': return '600px'
+    //     case 'xl': return '800px'
+    //   }
+    // }
   },
   data: () => ({
     appendUrl: 'https://image.tmdb.org/t/p/w342/',
