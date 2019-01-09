@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.fa24f6e4f7c53e9eccac15967e8ee833.js"
+  "/precache-manifest.6ac382d9698700d551bf966c897708ad.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "cine-flick"});
