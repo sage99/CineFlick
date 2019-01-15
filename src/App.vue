@@ -4,7 +4,7 @@
       <Navbar class="hidden-sm-and-up" :drawer="drawer"></Navbar>
       <toolbar :dark="darkMode" @toggleDrawer="drawer = !drawer"></toolbar>
     </div>
-    <v-content class="!blockstack.isUserSignedIn() ? res : ''">
+    <v-content :class="!blockstack.isUserSignedIn() ? res : ''">
       <v-container fluid fill-height>
         <v-layout justify-center align-center>
           <v-flex shrink>
