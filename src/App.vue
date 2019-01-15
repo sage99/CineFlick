@@ -89,14 +89,14 @@ export default {
         fileName: 'my_tv_watchlist.json',
         options: { decrypt: true }
       }
-      this.$store.dispatch('ACTION_GET_MOVIE_WATCHLIST', fileObjTV)
+      this.$store.dispatch('ACTION_GET_TV_WATCHLIST', fileObjTV)
     },
     getTVFavourites () {
       let fileObjTV = {
         fileName: 'my_tv_favourites.json',
         options: { decrypt: true }
       }
-      this.$store.dispatch('ACTION_GET_MOVIE_FAVOURITES', fileObjTV)
+      this.$store.dispatch('ACTION_GET_TV_FAVOURITES', fileObjTV)
     }
   }
 }
