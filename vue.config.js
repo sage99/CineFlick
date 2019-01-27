@@ -7,6 +7,7 @@ module.exports = {
     },
   },
   pwa: {
+    themeColor: '#7e8996',
     workboxPluginMode: 'GenerateSW',
     workboxOptions: {
       skipWaiting: true

@@ -16,7 +16,7 @@ const TVService = {
     return HTTP.get('tv/top_rated', { params: { language: 'en-US', ...query } })
   },
   getTVShowDetails: (query) => {
-    return HTTP.get(`tv/${query.id}`, { params: { language: 'en-US', append_to_response: 'credits,videos,similar,seasons' } })
+    return HTTP.get(`tv/${query.id}`, { params: { language: 'en-US', append_to_response: 'credits,videos,similar,seasons,reviews,keywords' } })
   }
 }
 export default TVService

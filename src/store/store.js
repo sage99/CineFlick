@@ -4,6 +4,7 @@ import profileHandler from './profile-handler'
 import movieHandler from './movie-list-handler'
 import storageHandler from './storage-handler'
 import TVHandler from './tv-handler'
+import searchHandler from './search-handler'
 
 Vue.use(Vuex)
 
@@ -12,10 +13,12 @@ export default new Vuex.Store({
     profileHandler,
     movieHandler,
     storageHandler,
-    TVHandler
+    TVHandler,
+    searchHandler
   },
   state: {
-    darkMode: true
+    darkMode: true,
+    profilePrefixUrl: 'https://image.tmdb.org/t/p/w154/'
   },
   mutations: {
     MUTATION_SET_DARK_MODE (state, payload) {
@@ -23,6 +26,7 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    getProfilePrefixUrl: state => state.profilePrefixUrl,
     darkMode: state => state.darkMode
   }
 })

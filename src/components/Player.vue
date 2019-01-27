@@ -1,10 +1,15 @@
 <template>
-  <v-dialog :max-width="width" v-model="playTrailer">
-    <v-btn class="cl" fab top right light small @click="close" ><v-icon>close</v-icon></v-btn>
-    <div class="video_wrapper">
-      <youtube  :player-width="playerSize.width" :player-height="playerSize.height" :player-vars="{autoplay: 1}" :video-id="videoid" @ready="ready" @playing="playing"></youtube>
-    </div>
-  </v-dialog>
+  <v-layout d-flex row wrap>
+    <v-flex justify-center align-center>
+      <v-dialog :max-width="width" v-model="playTrailer">
+        <v-btn class="cl" fab top right light small @click="close" ><v-icon>close</v-icon></v-btn>
+        <div class="video_wrapper">
+          <youtube  :player-width="playerSize.width" :player-height="playerSize.height" :player-vars="{autoplay: 1}" :video-id="videoid" @ready="ready" @playing="playing"></youtube>
+        </div>
+      </v-dialog>
+    </v-flex>
+
+  </v-layout>
 </template>
 
 <script>

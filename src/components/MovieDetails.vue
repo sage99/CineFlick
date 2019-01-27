@@ -1,6 +1,6 @@
 <template>
-  <v-container v-if="movieDetails && Object.keys(movieDetails).length > 0" class="white--text">
-    <v-layout row wrap class="mb-5">
+  <v-container fluid v-if="movieDetails && Object.keys(movieDetails).length > 0" class="white--text">
+    <v-layout row wrap id="movieDetail" class="mb-5">
       <v-flex xs3>
         <v-img :src='appendUrl + movieDetails.poster_path'></v-img>
       </v-flex>
@@ -68,38 +68,99 @@
         <p>{{movieDetails.overview}}</p>
         <v-layout  row wrap>
           <v-flex xs12><h1 class="headline">Featured Crew</h1></v-flex>
-          <v-flex class="mt-2" xs4 v-for="(item, index) in movieDetails.credits.crew.slice(0,6)" :key="index" >
-            <!-- <v-card> -->
-              <!-- <v-layout>
-                <v-flex xs4>
-                  <v-img
-                    :src="appendProfileUrl+item.profile_path"
-                    height="125px"
-                    contain
-                  ></v-img>
-                </v-flex>
-                <v-flex xs6>
-                  <v-card-title primary-title>
-                    <div>
-                      <div>{{item.name}}</div>
-                      <div>{{item.character}}</div>
-                    </div>
-                  </v-card-title>
-                </v-flex>
-              </v-layout> -->
-              <!-- <v-card-content> -->
-              <!-- </v-card-content> -->
-              <!-- <v-img contain :src="appendProfileUrl+item.profile_path"></v-img> -->
-                <h2 class="subheading">{{item.name}}</h2>
-                <h3 class="caption">{{item.department}}</h3>
-            <!-- </v-card> -->
+          <v-flex class="mt-2" xs4 v-for="(item, index) in movieDetails.credits.crew.slice(0,6)" :key="index + 'a'" >
+            <h2 class="subheading">{{item.name}}</h2>
+            <h3 class="caption">{{item.department}}</h3>
           </v-flex>
         </v-layout>
       </v-flex>
     </v-layout>
     <v-divider></v-divider>
-    <v-layout v-if="movieDetails.similar.results.length > 0" justify-center align-center class="mt-5" row wrap>
-      <h1 class="mt-3">Similar Movies</h1>
+    <!-- CAST OVERVIEW -->
+    <v-layout mt-5 row wrap>
+      <v-flex mt-3 xs12><div class="title">Cast Overview:</div></v-flex>
+      <v-flex xs7>
+        <v-layout row wrap>
+          <v-flex d-flex xs3 v-for="(item, index1) in movieDetails.credits.cast.slice(0,8)" :key="index1 + 'b'" >
+            <v-card class="mt-3 br20 ml-3">
+              <v-img
+                :src="appendProfileUrl+item.profile_path"
+              ></v-img>
+              <v-card-text class="text-xs-center" primary-title>
+                <div>
+                  <div>{{item.name}}</div>
+                  <div>as</div>
+                  <div>{{item.character}}</div>
+                </div>
+              </v-card-text>
+            </v-card>
+          </v-flex>
+          <v-btn :color="darkMode ? '' : 'primary'" @click="redirectToCast" block round class="ml-3 mt-3">View Full Cast and Crew  <v-icon >keyboard_arrow_right</v-icon></v-btn>
+        </v-layout>
+      </v-flex>
+      <!-- STATS -->
+      <v-flex mt-3 ml-3 xs4>
+        <v-card class="br20">
+          <v-card-title class="headline">Stats</v-card-title>
+          <v-list two-line>
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title>Homepage</v-list-tile-title>
+                <v-list-tile-sub-title><a target="_blank" :href="movieDetails.homepage">{{movieDetails.homepage}}</a></v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title>Release Date</v-list-tile-title>
+                <v-list-tile-sub-title>{{movieDetails.release_date}}</v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title>Original Language</v-list-tile-title>
+                <v-list-tile-sub-title>{{getSpokenLanguage()}}</v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title>Runtime</v-list-tile-title>
+                <v-list-tile-sub-title>{{toHoursMinutes(movieDetails.runtime)}}</v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title>Budget</v-list-tile-title>
+                <v-list-tile-sub-title>{{'$' + movieDetails.budget}}</v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title>Revenue</v-list-tile-title>
+                <v-list-tile-sub-title>{{'$' + movieDetails.revenue}}</v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
+          <v-card-text>
+            <div class="title font-weight-regular">Genre:</div>
+            <v-chip color="teal lighten-2" class="mt-3 " v-for="(genre, index2) in movieDetails.genres" :key="index2 + 'c'">
+              {{genre ? genre.name : null}}
+            </v-chip>
+            <div class="title font-weight-regular mt-3">Keywords:</div>
+            <v-chip color="teal lighten-2" class="mt-3 " v-for="(keyword, index3) in movieDetails.keywords.keywords" :key="index3 + 'd'">
+              {{keyword ? keyword.name : null}}
+            </v-chip>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+
+    <v-layout id="movieEnd" v-if="movieDetails.similar.results.length > 0" justify-center align-center class="mt-5" row wrap>
+      <h1 >Similar Movies</h1>
       <v-flex s12 >
         <items-list :showPagination="false" :itemList="movieDetails.similar.results.slice(0,6)" ></items-list>
       </v-flex>
@@ -120,7 +181,8 @@ export default {
       movieWatchlist: 'getMovieWatchlist',
       movieFavourites: 'getMovieFavourites',
       watchlistMovieObj: 'getWatchlistMovieObj',
-      favMovieObj: 'getFavMovieObj'
+      favMovieObj: 'getFavMovieObj',
+      darkMode: 'darkMode'
     }),
     playerSize () {
       return {
@@ -140,7 +202,7 @@ export default {
   },
   data: () => ({
     appendUrl: 'https://image.tmdb.org/t/p/w342/',
-    appendProfileUrl: 'https://image.tmdb.org/t/p/w185/',
+    appendProfileUrl: 'https://image.tmdb.org/t/p/w154/',
     playTrailer: false,
     Id: '',
     eventBus: eventBus
@@ -155,6 +217,19 @@ export default {
     }
   },
   methods: {
+    redirectToCast () {
+      this.$store.commit('MUTATION_SET_CAST_AND_CREW', this.movieDetails.credits)
+      this.$router.push({ name: 'CastAndCrew' })
+    },
+    getSpokenLanguage () {
+      let language = this.movieDetails.spoken_languages.find(item => item.iso_639_1 === this.movieDetails.original_language)
+      return language ? language.name : null
+    },
+    toHoursMinutes (minutes) {
+      let hours = Math.floor(minutes / 60)
+      let remainingMinutes = Math.floor(minutes % 60)
+      return `${hours}h ${remainingMinutes}m`
+    },
     play () {
       this.playTrailer = true
     },
@@ -202,12 +277,19 @@ export default {
     }
   },
   mounted () {
+    let availableHeight = `${window.innerHeight - document.getElementById('toolbar').offsetHeight}`
+    let docHeight = document.body.scrollHeight
+    let marginBottom = availableHeight - document.getElementById('movieDetail').offsetHeight
+    if (this.movieDetails.similar.results.length > 0) {
+      document.getElementById('movieEnd').style['marginTop'] = `${marginBottom}px`
+    }
     window.scroll(0, 0)
+
     let url = `https://image.tmdb.org/t/p/w1280/${this.movieDetails.backdrop_path}`
     let el = document.getElementsByClassName('v-content__wrap')[0]
     el.style['background-image'] = `url(${url})`
-    el.style['background-size'] = '100% 100vh'
-    el.style['box-shadow'] = 'inset 0 100vh 0 0 rgba(65, 63, 64, 0.9)'
+    el.style['background-size'] = `100% 100vh`
+    el.style['box-shadow'] = `inset 0 ${docHeight + 1000}px 0 0 rgba(65, 63, 64, 0.9)`
     // el.style['background-position'] = 'center center'
   },
   destroyed () {

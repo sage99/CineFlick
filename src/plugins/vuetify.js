@@ -39,7 +39,9 @@ import {
   VSwitch,
   VCheckbox,
   VPagination,
-  VDialog
+  VDialog,
+  VChip,
+  VSelect
 } from 'vuetify'
 import 'vuetify/src/stylus/app.styl'
 
@@ -67,7 +69,9 @@ Vue.use(Vuetify, {
     VSwitch,
     VCheckbox,
     VPagination,
-    VDialog
+    VDialog,
+    VChip,
+    VSelect
   },
   iconfont: 'md'
 })

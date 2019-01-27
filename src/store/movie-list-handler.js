@@ -10,7 +10,7 @@ const moviesHandler = {
   mutations: {
     MUTATION_SET_MOVIE_LIST (state, payload) {
       state.movieList.title = payload.title
-      state.movieList.data = payload.data.results
+      state.movieList.data = payload.data.results.filter(item => item.overview)
       state.movieList.page = payload.data.page
       state.movieList.max_pages = payload.data.total_pages
     },

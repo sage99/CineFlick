@@ -10,7 +10,7 @@ const movieService = {
     return HTTP.get('movie/top_rated', { params: { language: 'en-US', ...query } })
   },
   getMovieDetails: (query) => {
-    return HTTP.get(`movie/${query.id}`, { params: { language: 'en-US', append_to_response: 'credits,videos,similar' } })
+    return HTTP.get(`movie/${query.id}`, { params: { language: 'en-US', append_to_response: 'credits,videos,similar,reviews,keywords' } })
   }
 }
 export default movieService

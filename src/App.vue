@@ -9,6 +9,13 @@
         <v-layout justify-center align-center>
           <v-flex shrink>
             <!-- <Login v-if="!blockstack.isUserSignedIn()"></Login> -->
+            <v-tooltip left>
+              <v-btn @click="$store.commit('MUTATION_SET_DARK_MODE', !darkMode)" slot="activator" fixed dark fab bottom right color="primary">
+                <v-icon v-if="!darkMode">brightness_3</v-icon>
+                <v-icon v-else>wb_sunny</v-icon>
+              </v-btn>
+              <span>Toggle Dark Mode</span>
+            </v-tooltip>
             <router-view />
               <!-- <v-btn block >Sign In with blockstack</v-btn> -->
             <Player></Player>
@@ -51,7 +58,7 @@ export default {
       drawer: false
     }
   },
-  mounted () {
+  async mounted () {
     if (this.blockstack.isUserSignedIn()) {
       this.getMovieWatchlist()
       this.getMovieFavourites()
@@ -114,6 +121,10 @@ export default {
 }
 body {
   font-family: 'Play', sans-serif !important;
+}
+
+.br20 {
+  border-radius: 20px;
 }
 
 .xsh1 {

@@ -10,9 +10,9 @@
               contain
               ></v-img>
             </v-flex>
-            <v-flex ml-3 mt-2 xs12 sm7 >
+            <v-flex class="flex-card-content" ml-3 mt-2 xs12 sm7 >
               <v-layout row align-center justify-center mb-4>
-                <v-flex xs12 sm3>
+                <v-flex v-if="!mode" xs12 sm3>
                   <v-progress-circular
                     :rotate="-90"
                     :size="70"
@@ -24,9 +24,10 @@
                   </v-progress-circular>
 
                 </v-flex>
-                <v-flex ml-2 sm9 xs12>
+                <v-flex :class="mode ? '' : 'ml-2'" sm9 xs12>
                   <div class="title font-weight-regular">{{type === 'TV' ? item.name : item.title}}</div>
-                  <div v-if="type === 'TV'" class="font-weight-light">({{item.first_air_date.split('-')[0]}})</div>
+                  <div v-if="type === 'TV' && mode === 'season'" class="font-weight-light">({{item.air_date.split('-')[0]}})</div>
+                  <div v-else-if="type === 'TV'" class="font-weight-light">({{item.first_air_date.split('-')[0]}})</div>
                   <div v-else class="font-weight-light">{{new Date(item.release_date).toGMTString().split(" ").splice(0,4).join(" ")}}</div>
                 </v-flex>
               </v-layout>
@@ -37,7 +38,7 @@
                   </div>
                 </v-flex>
               </v-layout>
-              <v-layout mt-5 mr-2>
+              <v-layout class="flex-button-align-end" mr-2>
                 <v-flex>
                   <v-btn :color="darkMode ? '' : 'primary'"  @click="type === 'TV' ? getTVShowDetails(item, index) :getMovieDetails(item, index)" :loading="isLoading[index]" round block>more info <v-icon >keyboard_arrow_right</v-icon></v-btn>
                 </v-flex>
@@ -46,9 +47,11 @@
           </v-layout>
         </v-card>
       </v-flex>
-      <v-flex xs12 sm4></v-flex>
+    </v-layout>
+      <!-- <v-flex xs12 sm4></v-flex> -->
       <!-- <v-divider ></v-divider> -->
-      <v-flex xs12 sm4>
+    <v-layout mt-2>
+      <v-flex class="pagination-center">
         <v-pagination
         v-if="showPagination"
         total-visible="6"
@@ -65,7 +68,7 @@
 import { mapGetters } from 'vuex'
 export default {
   name: 'ItemsList',
-  props: ['itemList', 'showPagination', 'pageNumber', 'totalPages', 'type'],
+  props: ['itemList', 'showPagination', 'pageNumber', 'totalPages', 'type', 'mode'],
   computed: {
     ...mapGetters({
       darkMode: 'darkMode'
@@ -170,4 +173,16 @@ export default {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 } */
+.flex-card-content {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+.flex-button-align-end {
+  align-items: flex-end
+}
+.pagination-center {
+  display: flex;
+  justify-content: center;
+}
 </style>

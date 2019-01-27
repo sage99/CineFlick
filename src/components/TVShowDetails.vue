@@ -1,6 +1,6 @@
 <template>
   <v-container v-if="TVShowDetails && Object.keys(TVShowDetails).length > 0" class="white--text">
-    <v-layout row wrap class="mb-5">
+    <v-layout id="tvDetails" row wrap class="mb-5">
       <v-flex xs3>
         <v-img :src='appendUrl + TVShowDetails.poster_path'></v-img>
       </v-flex>
@@ -69,32 +69,10 @@
         <v-layout  row wrap>
           <v-flex xs12><h1 class="headline">Stats</h1></v-flex>
           <v-flex class="mt-2" xs4 >
-            <!-- <v-card> -->
-              <!-- <v-layout>
-                <v-flex xs4>
-                  <v-img
-                    :src="appendProfileUrl+item.profile_path"
-                    height="125px"
-                    contain
-                  ></v-img>
-                </v-flex>
-                <v-flex xs6>
-                  <v-card-title primary-title>
-                    <div>
-                      <div>{{item.name}}</div>
-                      <div>{{item.character}}</div>
-                    </div>
-                  </v-card-title>
-                </v-flex>
-              </v-layout> -->
-              <!-- <v-card-content> -->
-              <!-- </v-card-content> -->
-              <!-- <v-img contain :src="appendProfileUrl+item.profile_path"></v-img> -->
-                <h2 class="subheading">{{TVShowDetails.number_of_episodes}}</h2>
-                <h3 class="caption">Episode Count</h3>
-            <!-- </v-card> -->
+            <h2 class="subheading">{{TVShowDetails.number_of_episodes}}</h2>
+            <h3 class="caption">Episode Count</h3>
           </v-flex>
-          <v-flex class="mt-2" xs4 >
+          <v-flex class="mt-2" xs4>
             <h2 class="subheading">{{TVShowDetails.number_of_seasons}}</h2>
             <h3 class="caption">Total Seasons</h3>
           </v-flex>
@@ -102,11 +80,121 @@
             <h2 class="subheading">{{TVShowDetails.first_air_date}}</h2>
             <h3 class="caption">First Air Date</h3>
           </v-flex>
+          <v-flex v-if="TVShowDetails.last_episode_to_air" class="mt-2" xs4>
+            <h2 class="subheading">{{TVShowDetails.last_episode_to_air.air_date}}</h2>
+            <h3 class="caption">Last Episode Air Date</h3>
+          </v-flex>
+          <v-flex v-if="TVShowDetails.next_episode_to_air" class="mt-2" xs4>
+            <h2 class="subheading">{{TVShowDetails.next_episode_to_air.air_date}}</h2>
+            <h3 class="caption">Next Episode Air Date</h3>
+          </v-flex>
+          <!-- <h1 class="headline mt-2">Last Episode Air date: {{TVShowDetails.last_episode_to_air.air_date}}</h1>
+          <h1 class="headline mt-2">Next Episode Air date: {{TVShowDetails.next_episode_to_air.air_date}}</h1> -->
         </v-layout>
       </v-flex>
     </v-layout>
     <v-divider></v-divider>
-    <v-layout v-if="TVShowDetails.similar.results.length > 0" justify-center align-center class="mt-5" row wrap>
+
+    <v-layout mt-5 row wrap>
+      <v-flex mt-3 xs12><div class="title">Cast Overview:</div></v-flex>
+      <v-flex xs7>
+        <v-layout row wrap>
+          <v-flex d-flex xs3 v-for="(item, index1) in TVShowDetails.credits.cast.slice(0,8)" :key="index1 + 'b'" >
+            <v-card class="mt-3 br20 ml-3">
+              <v-img
+                :src="appendProfileUrl+item.profile_path"
+              ></v-img>
+              <v-card-text class="text-xs-center" primary-title>
+                <div>
+                  <div>{{item.name}}</div>
+                  <div>as</div>
+                  <div>{{item.character}}</div>
+                </div>
+              </v-card-text>
+            </v-card>
+          </v-flex>
+          <v-flex mr-2 xs12>
+            <v-btn :color="darkMode ? '' : 'primary'" @click="redirectToCast" block round class="ml-3 mt-3">View Full Cast and Crew  <v-icon >keyboard_arrow_right</v-icon></v-btn>
+          </v-flex>
+        </v-layout>
+      </v-flex>
+
+      <v-flex mt-3 ml-3 xs4>
+        <v-card class="br20">
+          <v-card-title class="headline">Stats</v-card-title>
+          <v-list two-line>
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title>Homepage</v-list-tile-title>
+                <v-list-tile-sub-title><a target="_blank" :href="TVShowDetails.homepage">{{TVShowDetails.homepage}}</a></v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title>Status</v-list-tile-title>
+                <v-list-tile-sub-title>{{TVShowDetails.in_production ? 'In Production' : 'Ended'}}</v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title>First Air Date</v-list-tile-title>
+                <v-list-tile-sub-title>{{TVShowDetails.first_air_date}}</v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title>Runtime</v-list-tile-title>
+                <v-list-tile-sub-title>{{toHoursMinutes(TVShowDetails.episode_run_time[0])}}</v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title>Type</v-list-tile-title>
+                <v-list-tile-sub-title>{{TVShowDetails.type}}</v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
+          <v-card-text>
+            <div class="title font-weight-regular">Networks:</div>
+            <div >
+              <v-layout row wrap>
+                <v-flex ml-2 mt-1 v-for="(network, index2) in TVShowDetails.networks" :key="index2 + 'f'" xs4 d-flex align-center justify-center >
+                  <v-img contain height="50px" :src="appendLogoUrl + network.logo_path"></v-img>
+                </v-flex>
+              </v-layout>
+              <!-- <v-chip color="teal lighten-2" class="mt-3 ">
+                {{network ? network.name : null}}
+              </v-chip> -->
+            </div>
+
+            <div class="title font-weight-regular mt-2">Genre:</div>
+            <v-chip color="teal lighten-2" class="mt-3 " v-for="(genre, index2) in TVShowDetails.genres" :key="index2 + 'c'">
+              {{genre ? genre.name : null}}
+            </v-chip>
+            <div class="title font-weight-regular mt-3">Keywords:</div>
+            <v-chip color="teal lighten-2" class="mt-3 " v-for="(keyword, index3) in TVShowDetails.keywords.results" :key="index3 + 'd'">
+              {{keyword ? keyword.name : null}}
+            </v-chip>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+
+    <v-layout v-if="TVShowDetails.seasons.length > 0" justify-center align-center class="mt-5" row wrap>
+     <v-flex xs12>
+        <h1 class="mt-3 font-weight-light">Seasons:</h1>
+     </v-flex>
+      <v-flex xs12 >
+        <SeasonsList :seasons="TVShowDetails.seasons" :appendUrl="appendProfileUrl"></SeasonsList>
+        <!-- <items-list :showPagination="false" mode="season" type="TV" :itemList="TVShowDetails.seasons" ></items-list> -->
+      </v-flex>
+    </v-layout>
+
+    <v-layout id="tvEnd" v-if="TVShowDetails.similar.results.length > 0" justify-center align-center class="mt-5" row wrap>
       <h1 class="mt-3 font-weight-light">Recommendations</h1>
       <v-flex s12 >
         <items-list :showPagination="false" type="TV" :itemList="TVShowDetails.similar.results.slice(0,6)" ></items-list>
@@ -119,16 +207,18 @@
 import { eventBus } from '@/main'
 import { mapGetters } from 'vuex'
 import ItemsList from './ItemsList'
+import SeasonsList from './SeasonsList'
 export default {
   name: 'TVShowDetails',
-  components: { ItemsList },
+  components: { ItemsList, SeasonsList },
   computed: {
     ...mapGetters({
       TVShowDetails: 'getTVShowDetails',
       TVWatchlist: 'getTVWatchlist',
       TVFavourites: 'getTVFavourites',
       watchlistTVObj: 'getWatchlistTVObj',
-      favTVObj: 'getFavTVObj'
+      favTVObj: 'getFavTVObj',
+      darkMode: 'darkMode'
     }),
     playerSize () {
       return {
@@ -140,6 +230,7 @@ export default {
   data: () => ({
     appendUrl: 'https://image.tmdb.org/t/p/w342/',
     appendProfileUrl: 'https://image.tmdb.org/t/p/w185/',
+    appendLogoUrl: 'https://image.tmdb.org/t/p/w92/',
     playTrailer: false,
     Id: '',
     eventBus: eventBus
@@ -154,6 +245,19 @@ export default {
     }
   },
   methods: {
+    redirectToCast () {
+      this.$store.commit('MUTATION_SET_CAST_AND_CREW', this.TVShowDetails.credits)
+      this.$router.push({ name: 'CastAndCrew' })
+    },
+    getSpokenLanguage () {
+      let language = this.TVShowDetails.spoken_languages ? this.TVShowDetails.spoken_languages.find(item => item.iso_639_1 === this.TVShowDetails.original_language) : null
+      return language ? language.name : null
+    },
+    toHoursMinutes (minutes) {
+      let hours = Math.floor(minutes / 60)
+      let remainingMinutes = Math.floor(minutes % 60)
+      return `${hours}h ${remainingMinutes}m`
+    },
     play () {
       this.playTrailer = true
     },
@@ -201,13 +305,26 @@ export default {
     }
   },
   mounted () {
+    // window.scroll(0, 0)
+    // let p = `${window.innerHeight - document.getElementById('toolbar').offsetHeight}px`
+    // let url = `https://image.tmdb.org/t/p/w1280/${this.TVShowDetails.backdrop_path}`
+    // let el = document.getElementsByClassName('v-content__wrap')[0]
+    // el.style['background-image'] = `url(${url})`
+    // el.style['background-size'] = `100% ${p}`
+    // el.style['box-shadow'] = `inset 0 ${p} 0 0 rgba(65, 63, 64, 0.9)`
+    // // el.style['background-position'] = 'center center'
+    console.log('YOOOO', document.getElementById('tvDetails'), document.getElementById('tvEnd'))
+    let availableHeight = `${window.innerHeight - document.getElementById('toolbar').offsetHeight}`
+    let docHeight = document.body.scrollHeight
+    let marginBottom = availableHeight - document.getElementById('tvDetails').offsetHeight
+    document.getElementById('tvEnd').style['marginTop'] = `${marginBottom}px`
     window.scroll(0, 0)
+
     let url = `https://image.tmdb.org/t/p/w1280/${this.TVShowDetails.backdrop_path}`
     let el = document.getElementsByClassName('v-content__wrap')[0]
     el.style['background-image'] = `url(${url})`
-    el.style['background-size'] = '100% 100vh'
-    el.style['box-shadow'] = 'inset 0 100vh 0 0 rgba(65, 63, 64, 0.9)'
-    // el.style['background-position'] = 'center center'
+    el.style['background-size'] = `100% 100vh`
+    el.style['box-shadow'] = `inset 0 ${docHeight + 1000}px 0 0 rgba(65, 63, 64, 0.9)`
   },
   destroyed () {
     let el = document.getElementsByClassName('v-content__wrap')[0]
