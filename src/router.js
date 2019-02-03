@@ -12,6 +12,7 @@ import TVWatchlist from '@/components/TVWatchlist'
 import Profile from '@/components/Profile'
 import CastAndCrew from '@/components/Cast_Crew'
 import SearchResult from '@/components/Intermediate-Search'
+import Playlists from '@/components/Playlists'
 
 // const blockstack = window.blockstack
 Vue.use(Router)
@@ -75,9 +76,14 @@ const router = new Router({
       component: CastAndCrew
     },
     {
-      path: '/search-results',
+      path: '/search-results/:type',
       name: 'SearchResult',
       component: SearchResult
+    },
+    {
+      path: '/playlists',
+      name: 'Playlists',
+      component: Playlists
     }
     // {
     //   path: '/po',

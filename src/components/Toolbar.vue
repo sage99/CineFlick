@@ -2,9 +2,9 @@
   <div>
     <v-toolbar id="toolbar" dark app fixed clipped-left>
       <v-toolbar-side-icon class="hidden-sm-and-up" @click="$emit('toggleDrawer')"></v-toolbar-side-icon>
-      <v-toolbar-side-icon>
+      <v-toolbar-side-icon @click="getMovies('IN_THEATRE_MOVIES', 'in-theatre')">
         <v-img
-          :src="'https://raw.githubusercontent.com/sage99/CineFlick/master/src/assets/logo1.png'"
+          src="https://raw.githubusercontent.com/sage99/CineFlick/master/src/assets/logo.png"
         ></v-img>
 
       </v-toolbar-side-icon>
@@ -14,7 +14,9 @@
       </v-btn>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-menu transition="slide-y-transition" bottom min-width="20">
+        <v-btn @click="getPlaylist" flat>Playlists</v-btn>
+
+        <v-menu transition="slide-y-transition" bottom>
           <v-btn flat slot="activator">
             Watch List
           </v-btn>
@@ -28,7 +30,7 @@
           </v-list>
         </v-menu>
 
-        <v-menu transition="slide-y-transition" bottom min-width="20">
+        <v-menu transition="slide-y-transition" bottom>
           <v-btn flat slot="activator">
             Favourites
           </v-btn>
@@ -42,7 +44,7 @@
           </v-list>
         </v-menu>
 
-        <v-menu transition="slide-y-transition" bottom min-width="20">
+        <v-menu transition="slide-y-transition" bottom>
           <v-btn flat slot="activator">
             Movies
           </v-btn>
@@ -59,7 +61,7 @@
           </v-list>
         </v-menu>
 
-        <v-menu transition="slide-y-transition" bottom min-width="20">
+        <v-menu transition="slide-y-transition" bottom>
           <v-btn flat slot="activator">
             TV Shows
           </v-btn>
@@ -117,6 +119,9 @@ export default {
     },
     getFavouriteTVShows () {
       this.$router.push({ name: 'TVFavourites' })
+    },
+    getPlaylist () {
+      this.$router.push({ name: 'Playlists' })
     }
   }
 }

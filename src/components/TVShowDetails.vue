@@ -7,7 +7,7 @@
       <v-flex class='ml-5' xs7>
         <h1 class="mt-3 mb-3 display-2">{{TVShowDetails.name}} <span class="headline">({{new Date(TVShowDetails.first_air_date).getFullYear()}})</span></h1>
         <!-- <h3>{{new Date(TVShowDetails.release_date).toGMTString().split(" ").splice(0,4).join(" ")}}</h3> -->
-        <v-progress-circular
+        <!-- <v-progress-circular
           :rotate='-90'
           :size='70'
           :width='10'
@@ -15,7 +15,33 @@
           :color='color(TVShowDetails.vote_average)'
         >
           {{ TVShowDetails.vote_average * 10 }}%
-        </v-progress-circular>
+        </v-progress-circular> -->
+        <v-menu light open-on-hover right offset-x>
+          <v-progress-circular
+            :rotate='-90'
+            :size='70'
+            slot="activator"
+            :width='10'
+            :value='TVShowDetails.vote_average * 10'
+            :color='color(TVShowDetails.vote_average)'
+          >
+            {{ TVShowDetails.vote_average * 10 }}%
+          </v-progress-circular>
+          <v-card>
+            <!-- <v-card-title class="headline"></v-card-title> -->
+            <v-card-text>
+              <p>
+                Number of users who rated this show: {{TVShowDetails.vote_count}}
+              </p>
+              <p>
+                Average rating: {{TVShowDetails.vote_average}}
+              </p>
+              <div>
+                *Rating source is a community driven open source platform. <br>
+                *You will be able to rate movies and add reviews on CineFlick in the next update.</div>
+            </v-card-text>
+          </v-card>
+        </v-menu>
         <span class="body-2 ml-2">User Score</span>
         <v-tooltip bottom>
           <v-btn slot="activator" dark class="ml-5" outline fab>
@@ -99,8 +125,9 @@
       <v-flex mt-3 xs12><div class="title">Cast Overview:</div></v-flex>
       <v-flex xs7>
         <v-layout row wrap>
+          <!-- eslint-disable-next-line -->
           <v-flex d-flex xs3 v-for="(item, index1) in TVShowDetails.credits.cast.slice(0,8)" :key="index1 + 'b'" >
-            <v-card class="mt-3 br20 ml-3">
+            <v-card v-if="showCast" class="mt-3 br20 ml-3">
               <v-img
                 :src="appendProfileUrl+item.profile_path"
               ></v-img>
@@ -113,8 +140,11 @@
               </v-card-text>
             </v-card>
           </v-flex>
+          <v-flex v-if="!showCast" mt-5>
+            <h1 class="headline font-weight-regular">Oops, No cast found for this show.</h1>
+          </v-flex>
           <v-flex mr-2 xs12>
-            <v-btn :color="darkMode ? '' : 'primary'" @click="redirectToCast" block round class="ml-3 mt-3">View Full Cast and Crew  <v-icon >keyboard_arrow_right</v-icon></v-btn>
+            <v-btn v-if="showCastButton" :color="darkMode ? '' : 'primary'" @click="redirectToCast" block round class="ml-3 mt-3">View Full Cast and Crew  <v-icon >keyboard_arrow_right</v-icon></v-btn>
           </v-flex>
         </v-layout>
       </v-flex>
@@ -176,7 +206,7 @@
               {{genre ? genre.name : null}}
             </v-chip>
             <div class="title font-weight-regular mt-3">Keywords:</div>
-            <v-chip color="teal lighten-2" class="mt-3 " v-for="(keyword, index3) in TVShowDetails.keywords.results" :key="index3 + 'd'">
+            <v-chip @click="searchKeyword(keyword)" color="teal lighten-2" class="mt-3 " v-for="(keyword, index3) in TVShowDetails.keywords.results" :key="index3 + 'd'">
               {{keyword ? keyword.name : null}}
             </v-chip>
           </v-card-text>
@@ -225,6 +255,21 @@ export default {
         width: window.outerWidth * 0.8,
         height: window.outerHeight * 0.6
       }
+    },
+    showCastButton () {
+      let cast = this.TVShowDetails.credits.cast
+      let crew = this.TVShowDetails.credits.crew
+      if (cast.length > 0 || crew.length > 0) {
+        return true
+      }
+      return false
+    },
+    showCast () {
+      let cast = this.TVShowDetails.credits.cast
+      if (cast.length > 0) {
+        return true
+      }
+      return false
     }
   },
   data: () => ({
@@ -248,6 +293,13 @@ export default {
     redirectToCast () {
       this.$store.commit('MUTATION_SET_CAST_AND_CREW', this.TVShowDetails.credits)
       this.$router.push({ name: 'CastAndCrew' })
+    },
+    async searchKeyword (keyword) {
+      // this.isLoading[index] = true
+      await this.$store.dispatch('ACTION_SEARCH_KEYWORD', { type: 'TV', id: keyword.id })
+      // this.isLoading[index] = false
+      // this.$emit('closeDialog')
+      this.$router.push({ name: 'SearchResult', params: { type: 'keyword' } })
     },
     getSpokenLanguage () {
       let language = this.TVShowDetails.spoken_languages ? this.TVShowDetails.spoken_languages.find(item => item.iso_639_1 === this.TVShowDetails.original_language) : null

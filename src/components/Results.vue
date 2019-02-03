@@ -2,7 +2,7 @@
   <v-list class="mt-2 br20">
     <v-card-title class="headline">Search Results</v-card-title>
     <template v-for="(item, index) in searchResults" >
-      <v-list-tile @click="item.media_type === 'tv' ? getTVShowDetails(item, index) :getMovieDetails(item, index)" :key="index">
+      <v-list-tile @click="item.media_type === 'tv' ? getTVShowDetails(item, index) : item.media_type === 'movie' ? getMovieDetails(item, index) : search(item.name || item.original_title, index)" :key="index">
         <v-list-tile-avatar>
           <v-btn icon read-only :loading="isLoading[index]">
             <v-icon v-if="item.media_type === 'movie'"  >movie</v-icon>
@@ -54,6 +54,13 @@ export default {
       this.isLoading[index] = false
       this.$emit('closeDialog')
       this.$router.push({ name: 'TVShowDetails', params: { id: TVshow.id } })
+    },
+    async search (text, index) {
+      this.isLoading[index] = true
+      await this.$store.dispatch('ACTION_SEARCH_CINEFLICK', { query: text })
+      this.isLoading[index] = false
+      this.$emit('closeDialog')
+      this.$router.push({ name: 'SearchResult' })
     }
   },
   mounted () {

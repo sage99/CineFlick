@@ -41,7 +41,8 @@ import {
   VPagination,
   VDialog,
   VChip,
-  VSelect
+  VSelect,
+  VCombobox
 } from 'vuetify'
 import 'vuetify/src/stylus/app.styl'
 
@@ -71,7 +72,8 @@ Vue.use(Vuetify, {
     VPagination,
     VDialog,
     VChip,
-    VSelect
+    VSelect,
+    VCombobox
   },
   iconfont: 'md'
 })

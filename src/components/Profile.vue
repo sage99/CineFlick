@@ -62,7 +62,7 @@
           <v-flex xs12 >
             <v-card class="br20">
               <v-card-title>
-                <div class="headline">User's Data</div>
+                <div class="headline">Your Data</div>
               </v-card-title>
               <v-card-text>
               </v-card-text>

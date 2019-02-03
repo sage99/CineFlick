@@ -9,8 +9,8 @@
         <v-layout justify-center align-center>
           <v-flex shrink>
             <!-- <Login v-if="!blockstack.isUserSignedIn()"></Login> -->
-            <v-tooltip left>
-              <v-btn @click="$store.commit('MUTATION_SET_DARK_MODE', !darkMode)" slot="activator" fixed dark fab bottom right color="primary">
+            <v-tooltip left v-if="blockstack.isUserSignedIn()">
+              <v-btn class="ml-2" :color="darkMode ? '#424242' : 'primary'"  @click="$store.commit('MUTATION_SET_DARK_MODE', !darkMode)" slot="activator" fixed dark fab bottom right>
                 <v-icon v-if="!darkMode">brightness_3</v-icon>
                 <v-icon v-else>wb_sunny</v-icon>
               </v-btn>
@@ -116,6 +116,9 @@ export default {
 //   background-position: center center;
 //   box-shadow:inset 0 0 0 2000px rgba(65, 63, 64, 0.9);
 // }
+.v-chip .v-chip__content {
+  cursor: pointer;
+}
 .theme--light.application {
   background: #eee;
 }

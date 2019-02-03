@@ -65,6 +65,9 @@ export default {
   watch: {
     dark () {
       this.$store.commit('MUTATION_SET_DARK_MODE', this.dark)
+    },
+    darkMode () {
+      this.dark = this.darkMode
     }
   },
   data: () => ({

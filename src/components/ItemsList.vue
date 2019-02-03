@@ -1,8 +1,8 @@
 <template>
   <v-container>
     <v-layout row wrap>
-      <v-flex xs12 sm6 xl4  v-for="(item, index) in itemList" :key="index">
-        <v-card class="ml-3 mt-2 br20" :hover="true">
+      <v-flex d-flex xs12 sm6 xl4  v-for="(item, index) in itemList" :key="index">
+        <v-card @click="type === 'TV' ? getTVShowDetails(item, index) :getMovieDetails(item, index)" class="ml-3 mr-3 mt-2 br20" :hover="true">
           <v-layout row>
             <v-flex xs12 sm5>
               <v-img

@@ -2,7 +2,7 @@
   <v-layout row justify-center>
     <v-dialog v-model="dialog1" fullscreen hide-overlay transition="dialog-bottom-transition">
       <v-card class="transparent-background" max-width="800px">
-        <v-toolbar fixed color="primary" dark >
+        <v-toolbar fixed :color=" darkMode ? 'grey darken-3' : 'primary'" dark >
           <v-layout row >
             <v-flex xs12 sm9>
               <v-layout row align-center>
@@ -15,8 +15,10 @@
                   <v-text-field
                     @input="search"
                     color="white"
+                    :autofocus="true"
                     :label="label"
                     v-model="searchText"
+                    :disabled="!searchType"
                   ></v-text-field>
 
                 </v-flex>
@@ -25,7 +27,7 @@
             <v-flex ml-2 xs2>
               <v-select
                 class="zindex500"
-                color="white"
+                label="Search Type"
                 :items="searchTypes"
                 v-model="searchType"
               ></v-select>
@@ -41,7 +43,7 @@
                 color="purple"
                 indeterminate
               ></v-progress-circular> -->
-              <Trending v-if="!searchText"></Trending>
+              <Trending @closeDialog="dialog1 = false" v-if="!searchText"></Trending>
               <Results @closeDialog="dialog1 = false" v-else :searchResults="searchResult"></Results>
             </v-card-text>
           </v-flex>
@@ -68,7 +70,7 @@ export default {
       widgets: false,
       searchTypes: [
         { text: 'Cineflick Data', value: 'cineflick' },
-        { text: 'Blockstack Users', value: 'blockstack' }
+        { text: 'Blockstack Users', value: null }
       ],
       searchType: 'cineflick',
       searchText: '',
@@ -79,11 +81,12 @@ export default {
   computed: {
     ...mapGetters({
       trending: 'getTrendingResult',
-      searchResult: 'getSearchResult'
+      searchResult: 'getSearchResult',
+      darkMode: 'darkMode'
     }),
     label () {
-      return this.searchType === 'cineflick' ? 'Search for a movie, tv show, person ...'
-        : 'Search for people on Blockstack'
+      return this.searchType === 'cineflick' ? 'Search for a movie, tv show...'
+        : 'Search for people on Blockstack (coming in next update)'
     }
   },
   watch: {
@@ -92,7 +95,7 @@ export default {
         this.$emit('updateDialog')
         this.searchText = ''
         window.scroll(0, 0)
-        this.$store.commit('MUTATION_SET_SEARCH_RESULT', [])
+        this.$store.commit('MUTATION_SET_SEARCH_RESULT', { results: [] })
       }
     },
     dialog () {
@@ -102,7 +105,7 @@ export default {
     },
     searchText () {
       if (!this.searchText) {
-        this.$store.commit('MUTATION_SET_SEARCH_RESULT', [])
+        this.$store.commit('MUTATION_SET_SEARCH_RESULT', { results: [] })
       }
     }
   },

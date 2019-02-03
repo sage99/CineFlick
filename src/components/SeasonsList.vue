@@ -1,7 +1,7 @@
 <template>
   <v-layout row wrap>
     <v-flex d-flex v-for="(item, index) in seasons" :key="index" xs2>
-      <v-card class="mt-3 br20 ml-3">
+      <v-card v-if="item.episode_count" class="mt-3 br20 ml-3">
         <v-img
           :src="appendUrl + item.poster_path"
         ></v-img>

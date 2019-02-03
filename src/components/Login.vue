@@ -8,9 +8,9 @@
           src="../assets/heroes.gif"
         >
         <div class="custom">
-          <h1  >CINEFLICK</h1>
+          <h1>CINEFLICK</h1>
         </div>
-        <p>A decentralized solution for your daily movie needs.</p>
+        <p>A decentralized platform to keep track of your favourite (and yet to be favourite) movies and tv shows.</p>
         <!-- <v-img src="https://raw.githubusercontent.com/sage99/CineFlick/master/public/L3_t1.png"></v-img> -->
         <!-- <v-btn @click="signIn" color="red darken-4" round>Sign in with something</v-btn> -->
         <v-btn @click="signIn" round>Sign in with blockstack <v-icon right>arrow_forward</v-icon></v-btn>

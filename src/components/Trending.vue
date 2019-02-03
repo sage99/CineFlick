@@ -7,7 +7,7 @@
           <v-btn :loading="isLoading[index]" icon read-only><v-icon>search</v-icon></v-btn>
         </v-list-tile-avatar>
         <v-list-tile-content>
-          <v-list-tile-title>{{item.name || item.original_title}}</v-list-tile-title>
+          <v-list-tile-title>{{item.name || item.original_language === 'en' ? item.original_title || item.original_name : item.title}}</v-list-tile-title>
           <!-- <v-list-tile-sub-title>HEYEYYYY</v-list-tile-sub-title> -->
         </v-list-tile-content>
       </v-list-tile>
@@ -39,6 +39,7 @@ export default {
       this.isLoading[index] = true
       await this.$store.dispatch('ACTION_SEARCH_CINEFLICK', { query: text })
       this.isLoading[index] = false
+      this.$emit('closeDialog')
       this.$router.push({ name: 'SearchResult' })
     }
   },

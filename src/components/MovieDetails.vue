@@ -5,24 +5,62 @@
         <v-img :src='appendUrl + movieDetails.poster_path'></v-img>
       </v-flex>
       <v-flex class='ml-5' xs7>
-        <h1 class="mt-3 mb-3 display-2">{{movieDetails.original_title}} <span class="headline">({{new Date(movieDetails.release_date).getFullYear()}})</span></h1>
+        <h1 class="mt-3 mb-3 display-2">{{movieDetails.title || movieDetails.original_title}} <span class="headline">({{new Date(movieDetails.release_date).getFullYear()}})</span></h1>
         <!-- <h3>{{new Date(movieDetails.release_date).toGMTString().split(" ").splice(0,4).join(" ")}}</h3> -->
-        <v-progress-circular
-          :rotate='-90'
-          :size='70'
-          :width='10'
-          :value='movieDetails.vote_average * 10'
-          :color='color(movieDetails.vote_average)'
-        >
-          {{ movieDetails.vote_average * 10 }}%
-        </v-progress-circular>
+          <v-menu light open-on-hover right offset-x>
+            <v-progress-circular
+              :rotate='-90'
+              :size='70'
+              slot="activator"
+              :width='10'
+              :value='movieDetails.vote_average * 10'
+              :color='color(movieDetails.vote_average)'
+            >
+              {{ movieDetails.vote_average * 10 }}%
+            </v-progress-circular>
+            <v-card>
+              <!-- <v-card-title class="headline"></v-card-title> -->
+              <v-card-text>
+                <p>
+                  Number of users who rated this movie: {{movieDetails.vote_count}}
+                </p>
+                <p>
+                  Average rating: {{movieDetails.vote_average}}
+                </p>
+                <div>
+                  *Rating source is a community driven open source platform. <br>
+                  *You will be able to rate movies and add reviews on CineFlick in the next update.</div>
+              </v-card-text>
+            </v-card>
+          </v-menu>
         <span class="body-2 ml-2">User Score</span>
-        <v-tooltip bottom>
+        <v-menu class="br20" offset-x right light open-on-hover>
           <v-btn slot="activator" dark class="ml-5" outline fab>
             <v-icon>list</v-icon>
           </v-btn>
-          <span>Add to playlist or Create one (Coming Soon...)</span>
-        </v-tooltip>
+          <v-list>
+            <v-list-tile @click="">
+              <v-list-tile-action>
+                <v-icon color="primary">add</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title text-color="primary">CREATE NEW PLAYLIST</v-list-tile-title>
+                <v-list-tile-sub-title>Create a new playlist and then add this movie.</v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-divider></v-divider>
+            <v-list-tile @click="">
+              <v-list-tile-action>
+                <v-icon color="primary">add</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title text-color="primary">ADD TO PLAYLIST</v-list-tile-title>
+                <v-list-tile-sub-title>Add this movie to an already created playlist.</v-list-tile-sub-title>
+              </v-list-tile-content>
+              <!-- <v-btn color="primary" flat> <v-icon>add</v-icon> Add to playlist </v-btn> -->
+            </v-list-tile>
+          </v-list>
+        </v-menu>
 
         <v-tooltip v-if="!watchlistMovieObj[movieDetails.id]" bottom>
           <v-btn @click="addToWatchlist" slot="activator" dark outline fab>
@@ -95,7 +133,7 @@
               </v-card-text>
             </v-card>
           </v-flex>
-          <v-btn :color="darkMode ? '' : 'primary'" @click="redirectToCast" block round class="ml-3 mt-3">View Full Cast and Crew  <v-icon >keyboard_arrow_right</v-icon></v-btn>
+          <v-btn v-if="showCastButton" :color="darkMode ? '' : 'primary'" @click="redirectToCast" block round class="ml-3 mt-3">View Full Cast and Crew  <v-icon >keyboard_arrow_right</v-icon></v-btn>
         </v-layout>
       </v-flex>
       <!-- STATS -->
@@ -151,7 +189,7 @@
               {{genre ? genre.name : null}}
             </v-chip>
             <div class="title font-weight-regular mt-3">Keywords:</div>
-            <v-chip color="teal lighten-2" class="mt-3 " v-for="(keyword, index3) in movieDetails.keywords.keywords" :key="index3 + 'd'">
+            <v-chip @click="searchKeyword(keyword, index3)" color="teal lighten-2" class="mt-3 " v-for="(keyword, index3) in movieDetails.keywords.keywords" :key="index3 + 'd'">
               {{keyword ? keyword.name : null}}
             </v-chip>
           </v-card-text>
@@ -189,6 +227,14 @@ export default {
         width: window.outerWidth * 0.7,
         height: window.outerWidth * 0.38
       }
+    },
+    showCastButton () {
+      let credits = this.movieDetails.credits
+      console.log('credits', credits)
+      if (credits.hasOwnProperty('cast') || credits.hasOwnProperty('crew')) {
+        return true
+      }
+      return false
     }
     // imageHeight () {
     //   switch (this.$vuetify.breakpoint.name) {
@@ -220,6 +266,13 @@ export default {
     redirectToCast () {
       this.$store.commit('MUTATION_SET_CAST_AND_CREW', this.movieDetails.credits)
       this.$router.push({ name: 'CastAndCrew' })
+    },
+    async searchKeyword (keyword, index) {
+      // this.isLoading[index] = true
+      await this.$store.dispatch('ACTION_SEARCH_KEYWORD', { type: 'Movie', id: keyword.id })
+      // this.isLoading[index] = false
+      // this.$emit('closeDialog')
+      this.$router.push({ name: 'SearchResult', params: { type: 'keyword' } })
     },
     getSpokenLanguage () {
       let language = this.movieDetails.spoken_languages.find(item => item.iso_639_1 === this.movieDetails.original_language)
@@ -277,10 +330,11 @@ export default {
     }
   },
   mounted () {
-    let availableHeight = `${window.innerHeight - document.getElementById('toolbar').offsetHeight}`
+    let availableHeight = `${window.innerHeight - (document.getElementById('toolbar') ? document.getElementById('toolbar').offsetHeight : 60)}`
     let docHeight = document.body.scrollHeight
-    let marginBottom = availableHeight - document.getElementById('movieDetail').offsetHeight
-    if (this.movieDetails.similar.results.length > 0) {
+    // console.log('YOOOOOOOOOOO', document.getElementById('movieDetail'))
+    let marginBottom = availableHeight - (document.getElementById('movieDetail') && document.getElementById('movieDetail').hasOwnProperty('offsetHeight')) ? document.getElementById('movieDetail').offsetHeight : 400
+    if (this.movieDetails.similar.results.length > 0 && document.getElementById('movieEnd')) {
       document.getElementById('movieEnd').style['marginTop'] = `${marginBottom}px`
     }
     window.scroll(0, 0)
@@ -289,7 +343,7 @@ export default {
     let el = document.getElementsByClassName('v-content__wrap')[0]
     el.style['background-image'] = `url(${url})`
     el.style['background-size'] = `100% 100vh`
-    el.style['box-shadow'] = `inset 0 ${docHeight + 1000}px 0 0 rgba(65, 63, 64, 0.9)`
+    el.style['box-shadow'] = `inset 0 ${(docHeight || 10000) + 1000}px 0 0 rgba(65, 63, 64, 0.9)`
     // el.style['background-position'] = 'center center'
   },
   destroyed () {
@@ -309,4 +363,7 @@ export default {
 </script>
 
 <style>
+/* .v-chip .v-chip__content {
+  cursor: pointer;
+} */
 </style>
