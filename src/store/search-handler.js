@@ -15,7 +15,6 @@ const searchHandler = {
       state.genreList = payload || []
     },
     MUTATION_SET_FILTERED_SEARCH_RESULT (state, payload) {
-      console.log('PYLOAD', payload)
       let obj = {
         'tv': [],
         'movies': []
@@ -32,17 +31,14 @@ const searchHandler = {
       state.filteredResult = obj || {}
     },
     MUTATION_SET_TRENDING_RESULT (state, payload) {
-      console.log('PYLOAD', payload)
       state.trendingResult = payload // .sort((a, b) => a.popularity - b.popularity)
     },
     MUTATION_SET_CAST_AND_CREW (state, payload) {
-      console.log('PYLOAD', payload)
       state.castAndCrew = payload // .sort((a, b) => a.popularity - b.popularity)
     }
   },
   actions: {
     async ACTION_SEARCH_CINEFLICK (context, payload) {
-      console.log('PAY', payload)
       let res = await searchService.search(payload)
       context.commit('MUTATION_SET_SEARCH_RESULT', res.data)
       context.commit('MUTATION_SET_FILTERED_SEARCH_RESULT', { data: res.data })

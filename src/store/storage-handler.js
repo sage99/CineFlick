@@ -9,7 +9,8 @@ const storageHandler = {
     TVFavourites: [],
     favTVObj: {},
     watchlistTVObj: {},
-    playlist: []
+    playlists: [],
+    playlistDetails: {}
   },
   mutations: {
     MUTATION_SET_MOVIE_WATCHLIST (state, payload) {
@@ -56,8 +57,11 @@ const storageHandler = {
         state.favTVObj = {}
       }
     },
-    MUTATION_SET_PLAYLIST (state, payload) {
-      state.playlist = payload || []
+    MUTATION_SET_PLAYLISTS (state, payload) {
+      state.playlists = payload || []
+    },
+    MUTATION_SET_PLAYLIST_DETAILS (state, payload) {
+      state.playlistDetails = payload || {}
     }
   },
   actions: {
@@ -95,11 +99,11 @@ const storageHandler = {
     },
     async ACTION_GET_PLAYLIST ({ commit }, payload) {
       let res = await storageService.getFile(payload)
-      commit('MUTATION_GET_MOVIE_PLAYLIST', res)
+      commit('MUTATION_SET_PLAYLISTS', res)
     },
-    async ACTION_SET_PLAYLIST ({ commit }, payload) {
+    async ACTION_SET_PLAYLISTS ({ commit }, payload) {
       let res = await storageService.putFile(payload)
-      commit('MUTATION_SET_MOVIE_PLAYLIST', res)
+      commit('MUTATION_SET_PLAYLISTS', res)
     }
   },
   getters: {
@@ -111,7 +115,8 @@ const storageHandler = {
     getTVFavourites: state => state.TVFavourites,
     getWatchlistTVObj: state => state.watchlistTVObj,
     getFavTVObj: state => state.favTVObj,
-    getPlaylist: state => state.playlist
+    getPlaylists: state => state.playlists,
+    getPlaylistDetails: state => state.playlistDetails
   }
 }
 

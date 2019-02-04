@@ -49,7 +49,7 @@
           </v-form>
         </v-card-text>
         <v-card-actions>
-          <v-btn :loading="isLoading" @click="validate" round :color="darkMode ? '' : 'primary'" >Create</v-btn>
+          <v-btn :loading="isLoading" @click="validate" round :color="darkMode ? '' : 'primary'" >{{ isEditing ? 'Save' : 'Create' }}</v-btn>
           <v-btn @click="createPlaylist = false" flat :color="darkMode ? '' : 'primary'" >close</v-btn>
         </v-card-actions>
       </v-card>
@@ -73,38 +73,65 @@ export default {
     nameRule: [
       v => !!v || 'Playlist name is required'
     ],
-    isLoading: false
+    isLoading: false,
+    playlistIndex: null,
+    isEditing: false
   }),
   computed: {
     ...mapGetters({
       darkMode: 'darkMode',
       genreList: 'getGenre',
-      playlist: 'getPlaylist',
+      playlists: 'getPlaylists',
       profileData: 'getProfileData'
     })
+  },
+  watch: {
+    createPlaylist () {
+      if (!this.createPlaylist) {
+        this.isLoading = false
+        this.$refs.form.reset()
+        this.isEditing = false
+        this.playlistIndex = null
+      }
+    }
   },
   mounted () {
     eventBus.$on('createPlaylist', () => {
       this.createPlaylist = true
-      this.$refs.form.reset()
+    })
+    eventBus.$on('editPlaylist', (playlist) => {
+      this.isEditing = true
+      // this.playlistForm.name = playlist.name
+      // this.playlistForm.description = playlist.description
+      // this.playlistForm.genres = playlist.genres
+      this.playlistForm = { ...playlist }
+      this.playlistIndex = this.playlists.indexOf(playlist)
+      this.createPlaylist = true
     })
   },
   destroyed () {
     eventBus.$off('createPlaylist')
-    this.isLoading = false
   },
   methods: {
     validate () {
       if (this.$refs.form.validate()) {
         this.isLoading = true
-        this.playlistForm['creatorName'] = this.profileData.profile.name
-        this.playlistForm['creatorId'] = this.profileData.username
-        this.playlistForm['createdAt'] = new Date()
-        this.playlistForm['updatedAt'] = new Date()
-        this.playlistForm['movies'] = []
-        this.playlistForm['tv'] = []
-        let playlists = [this.playlistForm, ...this.playlist]
-        this.$store.commit('MUTATION_SET_PLAYLIST', playlists)
+        let playlists = []
+        if (!this.isEditing) {
+          this.playlistForm['creatorName'] = this.profileData.profile.name
+          this.playlistForm['creatorId'] = this.profileData.username
+          this.playlistForm['createdAt'] = +new Date()
+          this.playlistForm['updatedAt'] = +new Date()
+          this.playlistForm['id'] = +new Date()
+          this.playlistForm['movies'] = []
+          this.playlistForm['tv'] = []
+          playlists = [{ ...this.playlistForm }, ...this.playlists]
+        } else {
+          this.playlistForm['updatedAt'] = +new Date()
+          playlists = [...this.playlists]
+          playlists[this.playlistIndex] = { ...this.playlistForm }
+        }
+        this.$store.commit('MUTATION_SET_PLAYLISTS', playlists)
         storageService.putFile({
           fileName: 'my_playlist.json',
           data: playlists,

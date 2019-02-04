@@ -13,6 +13,7 @@ import Profile from '@/components/Profile'
 import CastAndCrew from '@/components/Cast_Crew'
 import SearchResult from '@/components/Intermediate-Search'
 import Playlists from '@/components/Playlists'
+import PlaylistDetails from '@/components/PlaylistDetails'
 
 // const blockstack = window.blockstack
 Vue.use(Router)
@@ -84,6 +85,11 @@ const router = new Router({
       path: '/playlists',
       name: 'Playlists',
       component: Playlists
+    },
+    {
+      path: '/playlist/:id',
+      name: 'Playlist',
+      component: PlaylistDetails
     }
     // {
     //   path: '/po',

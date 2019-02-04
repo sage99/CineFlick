@@ -42,7 +42,8 @@ import {
   VDialog,
   VChip,
   VSelect,
-  VCombobox
+  VCombobox,
+  VDataTable
 } from 'vuetify'
 import 'vuetify/src/stylus/app.styl'
 
@@ -73,7 +74,8 @@ Vue.use(Vuetify, {
     VDialog,
     VChip,
     VSelect,
-    VCombobox
+    VCombobox,
+    VDataTable
   },
   iconfont: 'md'
 })

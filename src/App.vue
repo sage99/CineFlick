@@ -19,6 +19,22 @@
             <router-view />
               <!-- <v-btn block >Sign In with blockstack</v-btn> -->
             <Player></Player>
+            <AddToPlaylist></AddToPlaylist>
+            <v-snackbar
+              v-model="snackbar"
+              bottom
+              left
+              :timeout="0"
+            >
+              New Content is available, please refresh.
+              <v-btn
+                color="primary"
+                flat
+                @click="reload"
+              >
+                Refresh
+              </v-btn>
+            </v-snackbar>
           </v-flex>
         </v-layout>
       </v-container>
@@ -31,6 +47,8 @@ import Navbar from '@/components/Navbar'
 import Toolbar from '@/components/Toolbar'
 // import Login from '@/components/Login'
 import Player from '@/components/Player'
+import AddToPlaylist from '@/components/AddToPlaylist'
+
 import { mapGetters } from 'vuex'
 
 export default {
@@ -38,12 +56,14 @@ export default {
   components: {
     Navbar,
     Toolbar,
-    Player
+    Player,
+    AddToPlaylist
     // Login
   },
   computed: {
     ...mapGetters({
-      darkMode: 'darkMode'
+      darkMode: 'darkMode',
+      snackbar: 'getNewContent'
     }),
     res () {
       switch (this.$vuetify.breakpoint.name) {
@@ -77,6 +97,9 @@ export default {
     }
   },
   methods: {
+    reload () {
+      window.location.replace('/')
+    },
     getMovieWatchlist () {
       let fileObjMovie = {
         fileName: 'my_movie_watchlist.json',

@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <v-layout row wrap>
+      <!-- <AddToPlaylist></AddToPlaylist> -->
       <v-flex d-flex xs12 sm6 xl4  v-for="(item, index) in itemList" :key="index">
         <v-card @click="type === 'TV' ? getTVShowDetails(item, index) :getMovieDetails(item, index)" class="ml-3 mr-3 mt-2 br20" :hover="true">
           <v-layout row>

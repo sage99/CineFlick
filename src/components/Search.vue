@@ -99,7 +99,6 @@ export default {
       }
     },
     dialog () {
-      console.log('HEREEEEEE', this.dialog)
       window.scroll(0, 0)
       this.dialog1 = this.dialog
     },

@@ -39,7 +39,7 @@
             <v-icon>list</v-icon>
           </v-btn>
           <v-list>
-            <v-list-tile @click="">
+            <!-- <v-list-tile @click="">
               <v-list-tile-action>
                 <v-icon color="primary">add</v-icon>
               </v-list-tile-action>
@@ -47,9 +47,9 @@
                 <v-list-tile-title text-color="primary">CREATE NEW PLAYLIST</v-list-tile-title>
                 <v-list-tile-sub-title>Create a new playlist and then add this movie.</v-list-tile-sub-title>
               </v-list-tile-content>
-            </v-list-tile>
-            <v-divider></v-divider>
-            <v-list-tile @click="">
+            </v-list-tile> -->
+            <!-- <v-divider></v-divider> -->
+            <v-list-tile @click="eventBus.$emit('addToPlaylist', { data: movieDetails, type: 'movies' })">
               <v-list-tile-action>
                 <v-icon color="primary">add</v-icon>
               </v-list-tile-action>
@@ -230,7 +230,6 @@ export default {
     },
     showCastButton () {
       let credits = this.movieDetails.credits
-      console.log('credits', credits)
       if (credits.hasOwnProperty('cast') || credits.hasOwnProperty('crew')) {
         return true
       }

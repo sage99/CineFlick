@@ -80,7 +80,6 @@ export default {
         'movies': []
       }
       this.searchResult.forEach(element => {
-        console.log('ELEMENT', element)
         if (element.media_type === 'tv') {
           obj.tv.push(element)
         } else if (element.media_type === 'movie') {
@@ -98,7 +97,6 @@ export default {
     }
   },
   mounted () {
-    console.log('Praaaaaaa', this.$route)
     this.createobj(20)
     window.scroll(0, 0)
   }

@@ -18,15 +18,20 @@ export default new Vuex.Store({
   },
   state: {
     darkMode: true,
+    newContent: false,
     profilePrefixUrl: 'https://image.tmdb.org/t/p/w154/'
   },
   mutations: {
     MUTATION_SET_DARK_MODE (state, payload) {
       state.darkMode = payload
+    },
+    MUTATION_SET_NEW_CONTENT_NOTIF (state, payload) {
+      state.newContent = payload || true
     }
   },
   getters: {
     getProfilePrefixUrl: state => state.profilePrefixUrl,
-    darkMode: state => state.darkMode
+    darkMode: state => state.darkMode,
+    getNewContent: state => state.newContent
   }
 })

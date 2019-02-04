@@ -15,12 +15,12 @@
           <v-list-tile-title>Profile</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-      <v-list-tile @click="dummyFunction">
+      <v-list-tile @click="$router.push({ name: 'Playlists' })">
         <v-list-tile-action>
           <v-icon>list</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>Playlist (coming soon..)</v-list-tile-title>
+          <v-list-tile-title>Playlists</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
       <v-list-tile three-lines @click="dark = !dark">

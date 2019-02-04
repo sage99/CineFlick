@@ -31,6 +31,10 @@ export default {
       this.$store.dispatch('ACTION_GET_IN_THEATRE_MOVIES', { page: 1 })
       this.$router.push({ name: 'Home', params: { type: 'in-theatre' } })
     }
+    this.$store.dispatch('ACTION_GET_PLAYLIST', {
+      fileName: 'my_playlist.json',
+      options: { decrypt: false }
+    })
   }
 }
 </script>

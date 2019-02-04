@@ -43,12 +43,33 @@
           </v-card>
         </v-menu>
         <span class="body-2 ml-2">User Score</span>
-        <v-tooltip bottom>
+        <v-menu class="br20" offset-x right light open-on-hover>
           <v-btn slot="activator" dark class="ml-5" outline fab>
             <v-icon>list</v-icon>
           </v-btn>
-          <span>Add to playlist or Create one (Coming Soon...)</span>
-        </v-tooltip>
+          <v-list>
+            <!-- <v-list-tile @click="">
+              <v-list-tile-action>
+                <v-icon color="primary">add</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title text-color="primary">CREATE NEW PLAYLIST</v-list-tile-title>
+                <v-list-tile-sub-title>Create a new playlist and then add this movie.</v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile> -->
+            <!-- <v-divider></v-divider> -->
+            <v-list-tile @click="eventBus.$emit('addToPlaylist', { data: TVShowDetails, type: 'tv' })">
+              <v-list-tile-action>
+                <v-icon color="primary">add</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title text-color="primary">ADD TO PLAYLIST</v-list-tile-title>
+                <v-list-tile-sub-title>Add this tv show to an already created playlist.</v-list-tile-sub-title>
+              </v-list-tile-content>
+              <!-- <v-btn color="primary" flat> <v-icon>add</v-icon> Add to playlist </v-btn> -->
+            </v-list-tile>
+          </v-list>
+        </v-menu>
 
         <v-tooltip v-if="!watchlistTVObj[TVShowDetails.id]" bottom>
           <v-btn @click="addToWatchlist" slot="activator" dark outline fab>
@@ -365,7 +386,6 @@ export default {
     // el.style['background-size'] = `100% ${p}`
     // el.style['box-shadow'] = `inset 0 ${p} 0 0 rgba(65, 63, 64, 0.9)`
     // // el.style['background-position'] = 'center center'
-    console.log('YOOOO', document.getElementById('tvDetails'), document.getElementById('tvEnd'))
     let availableHeight = `${window.innerHeight - document.getElementById('toolbar').offsetHeight}`
     let docHeight = document.body.scrollHeight
     let marginBottom = availableHeight - document.getElementById('tvDetails').offsetHeight
