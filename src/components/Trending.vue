@@ -8,7 +8,6 @@
         </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile-title>{{item.name || item.original_language === 'en' ? item.original_title || item.original_name : item.title}}</v-list-tile-title>
-          <!-- <v-list-tile-sub-title>HEYEYYYY</v-list-tile-sub-title> -->
         </v-list-tile-content>
       </v-list-tile>
       <v-divider :key="index+'a'"></v-divider>
