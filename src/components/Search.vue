@@ -28,6 +28,7 @@
               <v-select
                 class="zindex500"
                 label="Search Type"
+                color="white"
                 :items="searchTypes"
                 v-model="searchType"
               ></v-select>
