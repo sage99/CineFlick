@@ -26,7 +26,7 @@
               left
               :timeout="0"
             >
-              New Content is available, please refresh.
+              New update is available, please refresh.
               <v-btn
                 color="primary"
                 flat
