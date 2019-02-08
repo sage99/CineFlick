@@ -12,8 +12,11 @@ const SearchService = {
   searchTVKeyword: (keyword) => {
     return HTTP.get(`discover/tv`, { params: { language: 'en-US', sort_by: 'popularity.desc', with_keywords: keyword } })
   },
-  searchGenres: (query) => {
-    return HTTP.get(`discover/movie`, { params: { language: 'en-US', ...query } })
+  searchMovieGenre: (genre) => {
+    return HTTP.get(`discover/movie`, { params: { language: 'en-US', sort_by: 'popularity.desc', with_genres: genre } })
+  },
+  searchTVGenre: (genre) => {
+    return HTTP.get(`discover/tv`, { params: { language: 'en-US', sort_by: 'popularity.desc', with_genres: genre } })
   },
   getGenres: () => {
     return HTTP.get(`genre/movie/list`, { params: { language: 'en-US' } })

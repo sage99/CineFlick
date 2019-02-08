@@ -56,6 +56,12 @@ const searchHandler = {
     async ACTION_GET_GENRE (context) {
       let res = await searchService.getGenres()
       context.commit('MUTATION_SET_GENRE', res.data.genres)
+    },
+    async ACTION_SEARCH_GENRE (context, genre) {
+      // console.log('PAY', payload)
+      let res = await searchService[`search${genre.type}Genre`](genre.id)
+      context.commit('MUTATION_SET_SEARCH_RESULT', res.data)
+      context.commit('MUTATION_SET_FILTERED_SEARCH_RESULT', { data: res.data, type: genre.type })
     }
   },
   getters: {

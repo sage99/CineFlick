@@ -223,7 +223,7 @@
             </div>
 
             <div class="title font-weight-regular mt-2">Genre:</div>
-            <v-chip color="teal lighten-2" class="mt-3 " v-for="(genre, index2) in TVShowDetails.genres" :key="index2 + 'c'">
+            <v-chip @click="searchGenre(genre)" color="teal lighten-2" class="mt-3 " v-for="(genre, index2) in TVShowDetails.genres" :key="index2 + 'c'">
               {{genre ? genre.name : null}}
             </v-chip>
             <div class="title font-weight-regular mt-3">Keywords:</div>
@@ -320,7 +320,14 @@ export default {
       await this.$store.dispatch('ACTION_SEARCH_KEYWORD', { type: 'TV', id: keyword.id })
       // this.isLoading[index] = false
       // this.$emit('closeDialog')
-      this.$router.push({ name: 'SearchResult', params: { type: 'keyword' } })
+      this.$router.push({ name: 'SearchResult', params: { type: `keyword-${keyword.name.split(' ').join('-')}-${keyword.id}` } })
+    },
+    async searchGenre (genre) {
+      // this.isLoading[index] = true
+      await this.$store.dispatch('ACTION_SEARCH_GENRE', { type: 'TV', id: genre.id })
+      // this.isLoading[index] = false
+      // this.$emit('closeDialog')
+      this.$router.push({ name: 'SearchResult', params: { type: `genre-${genre.name.split(' ').join('-')}-${genre.id}` } })
     },
     getSpokenLanguage () {
       let language = this.TVShowDetails.spoken_languages ? this.TVShowDetails.spoken_languages.find(item => item.iso_639_1 === this.TVShowDetails.original_language) : null
