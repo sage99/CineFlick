@@ -88,8 +88,8 @@
 </template>
 
 <script>
-import AvatarMenu from '@/components/AvatarMenu'
-import Search from '@/components/Search'
+import AvatarMenu from '@/components/Navigation/AvatarMenu'
+import Search from '@/components/Search/Search'
 export default {
   name: 'Toolbar',
   components: {

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import ItemsList from './ItemsList'
+import ItemsList from '@/components/Views/ItemsList'
 import { mapGetters } from 'vuex'
 export default {
   name: 'TVShowsList',

@@ -257,7 +257,7 @@
 <script>
 import { eventBus } from '@/main'
 import { mapGetters } from 'vuex'
-import ItemsList from './ItemsList'
+import ItemsList from '@/components/Views/ItemsList'
 import SeasonsList from './SeasonsList'
 export default {
   name: 'TVShowDetails',

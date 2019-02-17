@@ -1,6 +1,6 @@
 <template>
-  <v-container fluid fill-height>
-    <v-layout row wrap justify-center align-center>
+  <v-container >
+    <v-layout class="position-center" row wrap >
       <!-- <v-flex text-xs-center ><h1>Hey there,</h1></v-flex> -->
       <!-- <v-flex :class="{'ml-5' : !isXS}" text-xs-center> -->
       <v-flex text-xs-center>
@@ -13,7 +13,7 @@
         <p>A decentralized platform to keep track of your favourite (and yet to be favourite) movies and tv shows.</p>
         <!-- <v-img src="https://raw.githubusercontent.com/sage99/CineFlick/master/public/L3_t1.png"></v-img> -->
         <!-- <v-btn @click="signIn" color="red darken-4" round>Sign in with something</v-btn> -->
-        <v-btn @click="signIn" round>Sign in with blockstack <v-icon right>arrow_forward</v-icon></v-btn>
+        <v-btn large @click="signIn" round>Sign in with blockstack <v-icon right>arrow_forward</v-icon></v-btn>
       </v-flex>
     </v-layout>
   </v-container>

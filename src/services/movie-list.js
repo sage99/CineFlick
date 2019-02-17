@@ -1,7 +1,7 @@
 import HTTP from './http-handler'
 const movieService = {
   getInTheatreMovies: (query) => {
-    return HTTP.get('movie/now_playing', { params: { language: 'en-US', ...query } })
+    return HTTP.get('movie/now_playing', { params: { language: 'en-US', ...query, region: 'US', sort_by: 'popularity.desc' } })
   },
   getPopularMovies: (query) => {
     return HTTP.get('movie/popular', { params: { language: 'en-US', ...query } })

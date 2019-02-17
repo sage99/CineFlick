@@ -1,128 +1,123 @@
 <template>
-  <div>
-    <div v-if="userData.hasOwnProperty('profile')" >
-      <!-- <v-container > -->
-        <v-layout class="br20">
-          <v-flex class="mr-5" xs12>
-            <v-card class="br20">
-              <v-img
-                v-if="userData.profile.hasOwnProperty('image')"
-                :src="userData.profile.image[0].contentUrl"
-              >
-              </v-img>
-              <v-img
-                v-else
-                height="200px"
-                src="https://www.freeiconspng.com/uploads/no-image-icon-6.png"
-                gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)">
-              </v-img>
+  <v-layout row wrap v-if="userData.hasOwnProperty('profile')" justify-center >
+    <v-flex xs12 sm4>
+      <v-card class="br20">
+        <v-img
+          v-if="userData.profile.hasOwnProperty('image')"
+          :src="userData.profile.image[0].contentUrl"
+        >
+        </v-img>
+        <v-img
+          v-else
+          height="200px"
+          src="https://www.freeiconspng.com/uploads/no-image-icon-6.png"
+          gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)">
+        </v-img>
 
-              <v-card-title>
-                <div class="display-1">{{userData.profile.name}}</div>
-                <v-list two-line>
-                  <v-list-tile>
-                    <!-- <v-list-tile-action>
-                      <v-tooltip bottom>
-                        <v-icon slot="activator" color="teal accent-4">chat</v-icon>
-                        <span > {{ userData.username }} </span>
-                      </v-tooltip>
-                    </v-list-tile-action> -->
+        <v-card-title>
+          <div class="display-1">{{userData.profile.name}}</div>
+        </v-card-title>
+          <v-card-text>
+            <v-list two-line>
+              <v-list-tile>
+                <!-- <v-list-tile-action>
+                  <v-tooltip bottom>
+                    <v-icon slot="activator" color="teal accent-4">chat</v-icon>
+                    <span > {{ userData.username }} </span>
+                  </v-tooltip>
+                </v-list-tile-action> -->
 
-                    <v-list-tile-content class="text-wrap">
-                      <v-list-tile-title >{{userData.username || 'None'}}</v-list-tile-title>
-                      <v-list-tile-sub-title>Fully Qualified Name</v-list-tile-sub-title>
-                    </v-list-tile-content>
-                  </v-list-tile>
-                  <!-- <v-divider inset></v-divider> -->
+                <v-list-tile-content class="text-wrap">
+                  <v-list-tile-title >{{userData.username || 'None'}}</v-list-tile-title>
+                  <v-list-tile-sub-title>Fully Qualified Name</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+              <!-- <v-divider inset></v-divider> -->
 
-                  <v-list-tile>
-                    <v-list-tile-action>
-                      <v-icon color="teal accent-4">mail</v-icon>
-                    </v-list-tile-action>
+              <v-list-tile>
+                <v-list-tile-action>
+                  <v-icon color="teal accent-4">mail</v-icon>
+                </v-list-tile-action>
 
-                    <v-list-tile-content>
-                      <v-list-tile-title>{{userData.profile['@type'] || 'None'}}</v-list-tile-title>
-                      <v-list-tile-sub-title>Type</v-list-tile-sub-title>
-                    </v-list-tile-content>
-                  </v-list-tile>
+                <v-list-tile-content>
+                  <v-list-tile-title>{{userData.profile['@type'] || 'None'}}</v-list-tile-title>
+                  <v-list-tile-sub-title>Type</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
 
-                  <v-list-tile>
-                    <v-list-tile-action><v-icon>account_box</v-icon></v-list-tile-action>
+              <v-list-tile>
+                <v-list-tile-action><v-icon>account_box</v-icon></v-list-tile-action>
 
-                    <v-list-tile-content>
-                      <v-list-tile-title v-if="userData.profile.hasOwnProperty('account')" >{{userData.profile.account.length || 0}}</v-list-tile-title>
-                      <v-list-tile-sub-title>Account</v-list-tile-sub-title>
-                    </v-list-tile-content>
-                  </v-list-tile>
-                </v-list>
-              </v-card-title>
-            </v-card>
-          </v-flex>
+                <v-list-tile-content>
+                  <v-list-tile-title v-if="userData.profile.hasOwnProperty('account')" >{{userData.profile.account.length || 0}}</v-list-tile-title>
+                  <v-list-tile-sub-title>Account</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+          </v-card-text>
+      </v-card>
+    </v-flex>
+    <v-flex :class="res !== 'xs' ? 'ml-5' : 'mt-2'" xs12 sm4>
+      <v-card class="br20">
+        <v-card-title>
+          <div class="headline">Your Data</div>
+        </v-card-title>
+        <v-card-text>
+        </v-card-text>
+        <v-subheader>Favourites</v-subheader>
+        <v-list two-line>
+          <v-list-tile @click="$router.push({ name: 'FavouriteMovies' })">
+            <v-list-tile-action>
+              <v-icon color="teal accent-4">movie</v-icon>
+            </v-list-tile-action>
 
-          <v-flex xs12 >
-            <v-card class="br20">
-              <v-card-title>
-                <div class="headline">Your Data</div>
-              </v-card-title>
-              <v-card-text>
-              </v-card-text>
-              <v-subheader>Favourites</v-subheader>
-              <v-list two-line>
-                <v-list-tile @click="$router.push({ name: 'FavouriteMovies' })">
-                  <v-list-tile-action>
-                    <v-icon color="teal accent-4">movie</v-icon>
-                  </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{movieFavourites.length}}</v-list-tile-title>
+              <v-list-tile-sub-title>Movies</v-list-tile-sub-title>
+            </v-list-tile-content>
 
-                  <v-list-tile-content>
-                    <v-list-tile-title>{{movieFavourites.length}}</v-list-tile-title>
-                    <v-list-tile-sub-title>Movies</v-list-tile-sub-title>
-                  </v-list-tile-content>
+          </v-list-tile>
 
-                </v-list-tile>
+          <v-list-tile @click="$router.push({ name: 'TVFavourites' })">
+            <v-list-tile-action>
+              <v-icon color="teal accent-4">live_tv</v-icon>
+            </v-list-tile-action>
 
-                <v-list-tile @click="$router.push({ name: 'TVFavourites' })">
-                  <v-list-tile-action>
-                    <v-icon color="teal accent-4">live_tv</v-icon>
-                  </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{TVFavourites.length}}</v-list-tile-title>
+              <v-list-tile-sub-title>TV Shows</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
 
-                  <v-list-tile-content>
-                    <v-list-tile-title>{{TVFavourites.length}}</v-list-tile-title>
-                    <v-list-tile-sub-title>TV Shows</v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-              </v-list>
+        <v-subheader>Watchlist</v-subheader>
+        <v-list two-line>
+          <v-list-tile @click="$router.push({ name: 'MoviesWatchlist' })">
+            <v-list-tile-action>
+              <v-icon color="teal accent-4">movie</v-icon>
+            </v-list-tile-action>
 
-              <v-subheader>Watchlist</v-subheader>
-              <v-list two-line>
-                <v-list-tile @click="$router.push({ name: 'MoviesWatchlist' })">
-                  <v-list-tile-action>
-                    <v-icon color="teal accent-4">movie</v-icon>
-                  </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{movieWatchlist.length}}</v-list-tile-title>
+              <v-list-tile-sub-title>Movies</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
 
-                  <v-list-tile-content>
-                    <v-list-tile-title>{{movieWatchlist.length}}</v-list-tile-title>
-                    <v-list-tile-sub-title>Movies</v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
+          <v-list-tile @click="$router.push({ name: 'TVWatchlist' })">
+            <v-list-tile-action>
+              <v-icon color="teal accent-4">live_tv</v-icon>
+            </v-list-tile-action>
 
-                <v-list-tile @click="$router.push({ name: 'TVWatchlist' })">
-                  <v-list-tile-action>
-                    <v-icon color="teal accent-4">live_tv</v-icon>
-                  </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{TVWatchlist.length}}</v-list-tile-title>
+              <v-list-tile-sub-title>TV Shows</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-card>
 
-                  <v-list-tile-content>
-                    <v-list-tile-title>{{TVWatchlist.length}}</v-list-tile-title>
-                    <v-list-tile-sub-title>TV Shows</v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-              </v-list>
-            </v-card>
-          </v-flex>
-
-        </v-layout>
-      <!-- </v-container> -->
-    </div>
-  </div>
+    </v-flex>
+  </v-layout>
 
 </template>
 
@@ -158,7 +153,14 @@ export default {
       // searchedUserProfileData: 'getUserProfileData',
       // isResolved: 'isResolved',
       // isRedirected: 'isRedirected'
-    })
+    }),
+    res () {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return 'xs'
+        case 'sm': return 'sm'
+        default: return 'md'
+      }
+    }
   },
   methods: {
     redirectToResources () {}

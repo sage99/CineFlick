@@ -11,7 +11,7 @@
               contain
               ></v-img>
             </v-flex>
-            <v-flex class="flex-card-content" ml-3 mt-2 xs12 sm7 >
+            <v-flex class="flex-card-content" ml-3 mt-2 xs12 sm7>
               <v-layout row align-center justify-center mb-4>
                 <v-flex v-if="!mode" xs12 sm3>
                   <v-progress-circular
@@ -21,7 +21,7 @@
                     :value="item.vote_average * 10"
                     :color="color(item.vote_average)"
                   >
-                    {{ item.vote_average * 10 }}%
+                    {{ (item.vote_average ? (item.vote_average * 10) + '%' : 'NR') }}
                   </v-progress-circular>
 
                 </v-flex>
@@ -87,6 +87,7 @@ export default {
   },
   methods: {
     color (score) {
+      if (score === 0) return 'info'
       let finalScore = score * 10
       if (finalScore >= 70) return 'success'
       else if (finalScore > 30 && finalScore < 70) return 'lime accent-2'

@@ -5,9 +5,9 @@
       <toolbar :dark="darkMode" @toggleDrawer="drawer = !drawer"></toolbar>
     </div>
     <v-content :class="!blockstack.isUserSignedIn() ? res : ''">
-      <v-container fluid fill-height>
-        <v-layout justify-center align-center>
-          <v-flex shrink>
+      <v-container >
+        <v-layout>
+          <v-flex>
             <!-- <Login v-if="!blockstack.isUserSignedIn()"></Login> -->
             <v-tooltip left v-if="blockstack.isUserSignedIn()">
               <v-btn class="ml-2" :color="darkMode ? '#424242' : 'primary'"  @click="$store.commit('MUTATION_SET_DARK_MODE', !darkMode)" slot="activator" fixed dark fab bottom right>
@@ -43,11 +43,11 @@
 </template>
 
 <script>
-import Navbar from '@/components/Navbar'
-import Toolbar from '@/components/Toolbar'
+import Navbar from '@/components/Navigation/Navbar'
+import Toolbar from '@/components/Navigation/Toolbar'
 // import Login from '@/components/Login'
-import Player from '@/components/Player'
-import AddToPlaylist from '@/components/AddToPlaylist'
+import Player from '@/components/Youtube-Player/Player'
+import AddToPlaylist from '@/components/Playlist/AddToPlaylist'
 
 import { mapGetters } from 'vuex'
 
@@ -139,6 +139,15 @@ export default {
 //   background-position: center center;
 //   box-shadow:inset 0 0 0 2000px rgba(65, 63, 64, 0.9);
 // }
+
+.position-center {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  height: 80vh;
+}
+
 .v-chip .v-chip__content {
   cursor: pointer;
 }
