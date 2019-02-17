@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
-    "revision": "35b07eb2f8711ae08d1f58c043880930",
-    "url": "/fonts/Roboto-Regular.35b07eb2.woff"
+    "revision": "4357beb823a5f8d65c260f045d9e019a",
+    "url": "/fonts/Roboto-RegularItalic.4357beb8.woff2"
   },
   {
     "revision": "b6216d61c03e6ce0c9aea6ca7808f7ca",
@@ -24,12 +24,12 @@ self.__precacheManifest = [
     "url": "/img/heroes.76c7dd16.gif"
   },
   {
-    "revision": "570eb83859dc23dd0eec423a49e147fe",
-    "url": "/fonts/MaterialIcons-Regular.570eb838.woff2"
-  },
-  {
     "revision": "e79bfd88537def476913f3ed52f4f4b3",
     "url": "/fonts/MaterialIcons-Regular.e79bfd88.eot"
+  },
+  {
+    "revision": "570eb83859dc23dd0eec423a49e147fe",
+    "url": "/fonts/MaterialIcons-Regular.570eb838.woff2"
   },
   {
     "revision": "012cf6a10129e2275d79d6adac7f3b02",
@@ -52,36 +52,36 @@ self.__precacheManifest = [
     "url": "/fonts/Roboto-ThinItalic.5b4a33e1.woff2"
   },
   {
-    "revision": "8a96edbbcd9a6991d79371aed0b0288e",
-    "url": "/fonts/Roboto-ThinItalic.8a96edbb.woff"
-  },
-  {
     "revision": "d26871e8149b5759f814fd3c7a4f784b",
     "url": "/fonts/Roboto-Light.d26871e8.woff2"
   },
   {
-    "revision": "c73eb1ceba3321a80a0aff13ad373cb4",
-    "url": "/fonts/Roboto-Light.c73eb1ce.woff"
+    "revision": "8a96edbbcd9a6991d79371aed0b0288e",
+    "url": "/fonts/Roboto-ThinItalic.8a96edbb.woff"
   },
   {
     "revision": "e8eaae902c3a4dacb9a5062667e10576",
     "url": "/fonts/Roboto-LightItalic.e8eaae90.woff2"
   },
   {
-    "revision": "13efe6cbc10b97144a28310ebdeda594",
-    "url": "/fonts/Roboto-LightItalic.13efe6cb.woff"
+    "revision": "c73eb1ceba3321a80a0aff13ad373cb4",
+    "url": "/fonts/Roboto-Light.c73eb1ce.woff"
   },
   {
     "revision": "73f0a88bbca1bec19fb1303c689d04c6",
     "url": "/fonts/Roboto-Regular.73f0a88b.woff2"
   },
   {
-    "revision": "4357beb823a5f8d65c260f045d9e019a",
-    "url": "/fonts/Roboto-RegularItalic.4357beb8.woff2"
+    "revision": "13efe6cbc10b97144a28310ebdeda594",
+    "url": "/fonts/Roboto-LightItalic.13efe6cb.woff"
   },
   {
-    "revision": "2906b7141dec1b98ae8e",
-    "url": "/js/app.6fc2c65e.js"
+    "revision": "35b07eb2f8711ae08d1f58c043880930",
+    "url": "/fonts/Roboto-Regular.35b07eb2.woff"
+  },
+  {
+    "revision": "4e13f29dc6ac9aff79f3",
+    "url": "/js/app.74474b8c.js"
   },
   {
     "revision": "5decb835656b24ce3a6c",
@@ -92,36 +92,36 @@ self.__precacheManifest = [
     "url": "/fonts/Roboto-RegularItalic.f5902d5e.woff"
   },
   {
-    "revision": "1d6594826615607f6dc860bb49258acb",
-    "url": "/fonts/Roboto-Medium.1d659482.woff"
-  },
-  {
     "revision": "13ec0eb5bdb821ff4930237d7c9f943f",
     "url": "/fonts/Roboto-MediumItalic.13ec0eb5.woff2"
+  },
+  {
+    "revision": "1d6594826615607f6dc860bb49258acb",
+    "url": "/fonts/Roboto-Medium.1d659482.woff"
   },
   {
     "revision": "b52fac2bb93c5858f3f2675e4b52e1de",
     "url": "/fonts/Roboto-Bold.b52fac2b.woff2"
   },
   {
-    "revision": "50d75e48e0a3ddab1dd15d6bfb9d3700",
-    "url": "/fonts/Roboto-Bold.50d75e48.woff"
-  },
-  {
     "revision": "83e114c316fcc3f23f524ec3e1c65984",
     "url": "/fonts/Roboto-MediumItalic.83e114c3.woff"
+  },
+  {
+    "revision": "50d75e48e0a3ddab1dd15d6bfb9d3700",
+    "url": "/fonts/Roboto-Bold.50d75e48.woff"
   },
   {
     "revision": "94008e69aaf05da75c0bbf8f8bb0db41",
     "url": "/fonts/Roboto-BoldItalic.94008e69.woff2"
   },
   {
-    "revision": "4fe0f73cc919ba2b7a3c36e4540d725c",
-    "url": "/fonts/Roboto-BoldItalic.4fe0f73c.woff"
-  },
-  {
     "revision": "59eb3601394dd87f30f82433fb39dd94",
     "url": "/fonts/Roboto-Black.59eb3601.woff2"
+  },
+  {
+    "revision": "4fe0f73cc919ba2b7a3c36e4540d725c",
+    "url": "/fonts/Roboto-BoldItalic.4fe0f73c.woff"
   },
   {
     "revision": "313a65630d341645c13e4f2a0364381d",
@@ -136,12 +136,12 @@ self.__precacheManifest = [
     "url": "/fonts/Roboto-BlackItalic.cc2fadc3.woff"
   },
   {
-    "revision": "b24c7389edba2ca1f0160e27b281f698",
+    "revision": "68cf7b2a24bae3a088422b716e56e3ce",
     "url": "/index.html"
   },
   {
-    "revision": "2906b7141dec1b98ae8e",
-    "url": "/css/app.8bea44e6.css"
+    "revision": "4e13f29dc6ac9aff79f3",
+    "url": "/css/app.bddc13e0.css"
   },
   {
     "revision": "050e6c5eab93e50ee67296edd373ac14",
