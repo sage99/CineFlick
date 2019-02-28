@@ -1,5 +1,6 @@
 <template>
-  <v-layout>
+  <v-layout class="position-center" row wrap>
+    <createPlaylist></createPlaylist>
     <v-dialog max-width="500" v-model="deleteItem">
       <v-card class="br20">
         <v-card-title class="headline">
@@ -14,8 +15,8 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-flex xs12>
-      <div v-if="playlists && playlists.length > 0">
+    <v-flex v-if="playlists && playlists.length > 0" xs12>
+      <div >
         <h1 class="headline font-weight-regular">Playlists</h1>
         <v-btn
           class="mt-5"
@@ -29,24 +30,14 @@
           <v-icon>add</v-icon>
         </v-btn>
         <v-flex mt-3 >
-          <v-data-table :headers="headers" :items="playlists" class="elevation-4 br20">
+          <!-- <v-data-table :headers="headers" :items="playlists" class="elevation-4 br20">
             <template slot="items" slot-scope="props">
               <tr @click="setPlaylist(props.item)">
                 <td>{{ props.index + 1}}</td>
                 <td>{{ props.item.name }}</td>
                 <td>{{ props.item.description || '- - - - -' }}</td>
-                <!-- <td>{{ 'Private' }}</td> -->
                 <td>{{ props.item.movies.length }}</td>
                 <td>{{ props.item.tv.length }}</td>
-                <!-- <td>{{ new Date(props.item.createdAt).toDateString() }}</td> -->
-                <!-- <td>
-                  <v-btn icon small @click.stop="edit(props.item)">
-                    <v-icon small>edit</v-icon>
-                  </v-btn>
-                  <v-btn icon small @click.stop="delete(props.item)">
-                    <v-icon small>delete</v-icon>
-                  </v-btn>
-                </td> -->
 
                 <td class="justify-center align-center layout px-0">
                   <v-icon small @click.stop="edit(props.item)" class="mr-2">edit</v-icon>
@@ -54,22 +45,36 @@
                 </td>
               </tr>
             </template>
-          </v-data-table>
+          </v-data-table> -->
+          <v-card hover @click="setPlaylist(playlist)" v-for="(playlist, index) in playlists" :key="index" class="br20 mt-3">
+            <v-card-text >
+              <div class="align-data">
+                <v-avatar color="blue">
+                  <h1 class="font-weight-regular">
+                  {{playlist.name.substring(0,1).toUpperCase()}}
+                  </h1>
+                </v-avatar>
+                <span class="headline">{{playlist.name}}</span>
+                <span class="subheading"> {{playlist.description}}</span>
+                <span>{{playlist.movies.length}} Movies</span>
+                <span>{{playlist.tv.length}} TV Shows</span>
+              </div>
+            </v-card-text>
+          </v-card>
         </v-flex>
       </div>
-      <div v-else>
-        <h2 class="title font-weight-light">Oops, Looks like you have not created any playlist yet.</h2>
-        <v-btn
-          @click="eventBus.$emit('createPlaylist')"
-          :color="darkMode ? '' : 'primary'"
-          round
-          block
-        >
-          <v-icon left>add</v-icon>Create new playlist
-        </v-btn>
-      </div>
     </v-flex>
-    <createPlaylist></createPlaylist>
+    <v-flex class="text-xs-center" xs12 sm8 md6 v-else>
+      <h2 class="title font-weight-light">Oops, Looks like you have not created any playlist yet.</h2>
+      <v-btn
+        @click="eventBus.$emit('createPlaylist')"
+        :color="darkMode ? '' : 'primary'"
+        round
+        block
+      >
+        <v-icon left>add</v-icon>Create new playlist
+      </v-btn>
+    </v-flex>
   </v-layout>
 </template>
 
@@ -163,8 +168,13 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 tr {
   cursor: pointer;
+};
+.align-data {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>
