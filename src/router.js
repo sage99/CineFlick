@@ -1,19 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
-import MovieDetails from '@/components/Movie/MovieDetails'
-import Login from '@/components/Login'
-import MoviesFavourites from '@/components/Favourites/MoviesFavourites'
-import MoviesWatchlist from '@/components/Watchlist/MoviesWatchlist'
-import TVShows from '@/components/TV/TVShowsList'
-import TVShowDetails from '@/components/TV/TVShowDetails'
-import TVFavourites from '@/components/Favourites/TVFavourites'
-import TVWatchlist from '@/components/Watchlist/TVWatchlist'
-import Profile from '@/components/Profile'
-import CastAndCrew from '@/components/Cast_Crew'
-import SearchResult from '@/components/Search/Intermediate-Search'
-import Playlists from '@/components/Playlist/Playlists'
-import PlaylistDetails from '@/components/Playlist/PlaylistDetails'
+// const Home = '@/components/Home'
+// const MovieDetails = '@/components/Movie/MovieDetails'
+// const Login = '@/components/Login'
+// const MoviesFavourites = '@/components/Favourites/MoviesFavourites'
+// const MoviesWatchlist = '@/components/Watchlist/MoviesWatchlist'
+// const TVShows = '@/components/TV/TVShowsList'
+// const TVShowDetails = '@/components/TV/TVShowDetails'
+// const TVFavourites = '@/components/Favourites/TVFavourites'
+// const TVWatchlist = '@/components/Watchlist/TVWatchlist'
+// const Profile = '@/components/Profile'
+// const CastAndCrew = '@/components/Cast_Crew'
+// const SearchResult = '@/components/Search/Intermediate-Search'
+// const Playlists = '@/components/Playlist/Playlists'
+// const PlaylistDetails = '@/components/Playlist/PlaylistDetails'
 
 // const blockstack = window.blockstack
 Vue.use(Router)
@@ -24,72 +24,86 @@ const router = new Router({
     {
       path: '/login',
       name: 'Login',
-      component: Login
+      component: () => import(/* webpackChunkName: "login" */ '@/components/Login')
+      // component: Login
     },
     {
       path: '/movies/:type',
       name: 'Home',
-      component: Home
+      // component: Home
+      component: () => import(/* webpackChunkName: "home" */ '@/components/Home')
     },
     {
       path: '/tv/:type',
       name: 'TVShows',
-      component: TVShows
+      // component: TVShows,
+      component: () => import(/* webpackChunkName: "tvshowlist" */ '@/components/TV/TVShowsList')
     },
     {
       path: '/movie/:id',
       name: 'MovieDetails',
-      component: MovieDetails
+      // component: MovieDetails
+      component: () => import(/* webpackChunkName: "movie_details" */ '@/components/Movie/MovieDetails')
     },
     {
       path: '/tv/:id',
       name: 'TVShowDetails',
-      component: TVShowDetails
+      // component: TVShowDetails
+      component: () => import(/* webpackChunkName: "tvshowdetails" */ '@/components/TV/TVShowDetails')
     },
     {
       path: '/favourite-movies',
       name: 'FavouriteMovies',
-      component: MoviesFavourites
+      // component: MoviesFavourites
+      component: () => import(/* webpackChunkName: "movie_favourites" */ '@/components/Favourites/MoviesFavourites')
     },
     {
       path: '/movie-watchlist',
       name: 'MoviesWatchlist',
-      component: MoviesWatchlist
+      // component: MoviesWatchlist
+      component: () => import(/* webpackChunkName: "movie_watchlist" */ '@/components/Watchlist/MoviesWatchlist')
     },
     {
       path: '/favourite-tv-shows',
       name: 'TVFavourites',
-      component: TVFavourites
+      // component: TVFavourites
+      component: () => import(/* webpackChunkName: "tvfavourites" */ '@/components/Favourites/TVFavourites')
     },
     {
       path: '/tv-watchlist',
       name: 'TVWatchlist',
-      component: TVWatchlist
+      // component: TVWatchlist
+      component: () => import(/* webpackChunkName: "tvwatchlist" */ '@/components/Watchlist/TVWatchlist')
     },
     {
       path: '/profile',
       name: 'Profile',
-      component: Profile
+      // component: Profile
+      component: () => import(/* webpackChunkName: "profile" */ '@/components/Profile')
     },
     {
       path: '/cast-and-crew',
       name: 'CastAndCrew',
-      component: CastAndCrew
+      // component: CastAndCrew
+      component: () => import(/* webpackChunkName: "cast_crew" */ '@/components/Cast_Crew')
     },
     {
       path: '/search-results/:type',
       name: 'SearchResult',
-      component: SearchResult
+      // component: SearchResult
+      component: () => import(/* webpackChunkName: "intermediate_search" */ '@/components/Search/Intermediate-Search')
     },
     {
       path: '/playlists',
       name: 'Playlists',
-      component: Playlists
+      // component: Playlists
+      component: () => import(/* webpackChunkName: "playlists" */ '@/components/Playlist/Playlists')
     },
     {
       path: '/playlist/:id',
       name: 'Playlist',
-      component: PlaylistDetails
+      // component: PlaylistDetails
+      component: () => import(/* webpackChunkName: "playlist_details" */ '@/components/Playlist/PlaylistDetails')
     }
     // {
     //   path: '/po',

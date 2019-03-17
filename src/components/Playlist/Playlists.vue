@@ -1,5 +1,5 @@
 <template>
-  <v-layout>
+  <v-layout row wrap >
     <v-dialog max-width="500" v-model="deleteItem">
       <v-card class="br20">
         <v-card-title class="headline">
@@ -14,8 +14,8 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-flex xs12>
-      <div v-if="playlists && playlists.length > 0">
+    <v-flex v-if="playlists && playlists.length > 0" xs12>
+      <div >
         <h1 class="headline font-weight-regular">Playlists</h1>
         <v-btn
           class="mt-5"
@@ -57,8 +57,10 @@
           </v-data-table>
         </v-flex>
       </div>
-      <div v-else>
-        <h2 class="title font-weight-light">Oops, Looks like you have not created any playlist yet.</h2>
+    </v-flex>
+    <v-flex  class="position-center" v-else xs12>
+      <div>
+        <h2 class="title text-xs-center font-weight-light">Oops, Looks like you have not created any playlist yet.</h2>
         <v-btn
           @click="eventBus.$emit('createPlaylist')"
           :color="darkMode ? '' : 'primary'"
