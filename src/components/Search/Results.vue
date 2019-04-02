@@ -12,7 +12,7 @@
         </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile-title>
-            {{item.name || item.original_title}}
+            {{item.name || item.title || item.original_title}}
             <span class="v-list__tile__sub-title">{{item.media_type === 'movie' ? 'in Movies' : item.media_type === 'tv' ? 'in TV Shows' : ''}}</span>
           </v-list-tile-title>
           <!-- <v-list-tile-sub-title>{{item.media_type === 'movie' ? 'in Movies' : item.media_type === 'tv' ? 'in TV Shows' : ''}}</v-list-tile-sub-title> -->
