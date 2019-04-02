@@ -5,6 +5,7 @@ import movieHandler from './movie-list-handler'
 import storageHandler from './storage-handler'
 import TVHandler from './tv-handler'
 import searchHandler from './search-handler'
+import cineflickHandler from './cineflick-handler'
 
 Vue.use(Vuex)
 
@@ -14,7 +15,8 @@ export default new Vuex.Store({
     movieHandler,
     storageHandler,
     TVHandler,
-    searchHandler
+    searchHandler,
+    cineflickHandler
   },
   state: {
     darkMode: true,
@@ -26,6 +28,7 @@ export default new Vuex.Store({
       state.darkMode = payload
     },
     MUTATION_SET_NEW_CONTENT_NOTIF (state, payload) {
+      window.location.reload()
       state.newContent = payload || true
     }
   },

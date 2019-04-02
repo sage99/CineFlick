@@ -152,6 +152,7 @@ export default {
       let playlists = [...this.playlists]
       playlists.splice(this.playlists.indexOf(item), 1)
       this.$store.commit('MUTATION_SET_PLAYLISTS', playlists)
+      this.$store.dispatch('ACTION_DELETE_PUBLIC_PLAYLIST', { ...item })
       storageService.putFile({
         fileName: 'my_playlist.json',
         data: playlists,

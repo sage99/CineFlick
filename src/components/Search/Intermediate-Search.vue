@@ -58,7 +58,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import ItemsList from '@/components/Views/ItemsList'
+import ItemsList from '@/components/Views/Brief-view'
 export default {
   name: 'SearchResult',
   components: { ItemsList },

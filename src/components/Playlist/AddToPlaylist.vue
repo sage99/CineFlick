@@ -55,7 +55,19 @@ export default {
         found = playlists[index][this.type].find((item) => item.id === this.content.id)
       }
       if (!found) {
-        this.selectedPlaylist[this.type].push(this.content)
+        this.selectedPlaylist[this.type].push({
+          'id': this.content.id,
+          'original_title': this.content['original_title'],
+          'original_language': this.content['original_language'],
+          'overview': this.content['overview'],
+          'poster_path': this.content['poster_path'],
+          'release_date': this.content['release_date'],
+          'title': this.content['title'],
+          'backdrop_path': this.content['backdrop_path'],
+          'vote_average': this.content['vote_average'],
+          'popularity': this.content['popularity'],
+          'vote_count': this.content['vote_count']
+        })
         playlists[index] = this.selectedPlaylist
       } else {
         this.loading = false
@@ -63,7 +75,9 @@ export default {
         this.selectedPlaylist = null
         return
       }
+      console.log('PPPPPPPPP', this.playlists)
       this.$store.commit('MUTATION_SET_PLAYLISTS', playlists)
+      this.$store.dispatch('ACTION_CREATE_PUBLIC_PLAYLIST', this.selectedPlaylist)
       storageService.putFile({
         fileName: 'my_playlist.json',
         data: playlists,

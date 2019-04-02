@@ -133,7 +133,9 @@
               </v-card-text>
             </v-card>
           </v-flex>
-          <v-btn v-if="showCastButton" :color="darkMode ? '' : 'primary'" @click="redirectToCast" block round class="ml-3 mt-3">View Full Cast and Crew  <v-icon >keyboard_arrow_right</v-icon></v-btn>
+          <v-flex xs12 mr-3>
+            <v-btn v-if="showCastButton" :color="darkMode ? '' : 'primary'" @click="redirectToCast" block round class="ml-3 mt-3">View Full Cast and Crew  <v-icon >keyboard_arrow_right</v-icon></v-btn>
+          </v-flex>
         </v-layout>
       </v-flex>
       <!-- STATS -->
@@ -209,7 +211,7 @@
 <script>
 import { eventBus } from '@/main'
 import { mapGetters } from 'vuex'
-import ItemsList from '@/components/Views/ItemsList'
+import ItemsList from '@/components/Views/Brief-view'
 export default {
   name: 'MovieDetails',
   components: { ItemsList },

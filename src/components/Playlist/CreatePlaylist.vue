@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="createPlaylist" max-width="500">
+    <v-dialog v-model="createPlaylist" persistent max-width="500">
       <v-card class="br20">
         <v-card-title class="headline">Create New Playlist</v-card-title>
         <v-card-text>
@@ -120,11 +120,16 @@ export default {
         if (!this.isEditing) {
           this.playlistForm['creatorName'] = this.profileData.profile.name
           this.playlistForm['creatorId'] = this.profileData.username
+          this.playlistForm['votes'] = {
+            likes: 0,
+            dislikes: 0
+          }
           this.playlistForm['createdAt'] = +new Date()
           this.playlistForm['updatedAt'] = +new Date()
           this.playlistForm['id'] = +new Date()
           this.playlistForm['movies'] = []
           this.playlistForm['tv'] = []
+
           playlists = [{ ...this.playlistForm }, ...this.playlists]
         } else {
           this.playlistForm['updatedAt'] = +new Date()
@@ -132,6 +137,7 @@ export default {
           playlists[this.playlistIndex] = { ...this.playlistForm }
         }
         this.$store.commit('MUTATION_SET_PLAYLISTS', playlists)
+        this.$store.dispatch('ACTION_CREATE_PUBLIC_PLAYLIST', { ...this.playlistForm })
         storageService.putFile({
           fileName: 'my_playlist.json',
           data: playlists,

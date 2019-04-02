@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import ItemsList from '@/components/Views/ItemsList'
+import ItemsList from '@/components/Views/Brief-view'
 import { mapGetters } from 'vuex'
 export default {
   name: 'MoviesFavourites',

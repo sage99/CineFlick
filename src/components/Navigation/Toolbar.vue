@@ -8,7 +8,7 @@
         ></v-img>
 
       </v-toolbar-side-icon>
-      <v-toolbar-title class="hidden-xs"><a class="title1" @click="getMovies('IN_THEATRE_MOVIES', 'in-theatre')">CINEFLICK</a></v-toolbar-title>
+      <v-toolbar-title class="hidden-xs"><a class="title1" @click="getMovies('IN_THEATRE_MOVIES', 'in-theatre')">CineFlick</a></v-toolbar-title>
       <v-btn @click="dialog = !dialog" class="ml-4" icon>
         <v-icon>search</v-icon>
       </v-btn>

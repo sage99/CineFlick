@@ -1,18 +1,54 @@
 <template>
-  <div>
+  <!-- <div>
     <h1 class="headline ml-5 font-weight-regular">{{TVShows.title}}</h1>
     <items-list v-if="TVShows.data.length > 0" type="TV" :showPagination="true" :pageNumber="TVShows.page" :totalPages="TVShows.max_pages" :itemList="TVShows.data"></items-list>
-  </div>
+  </div> -->
+  <v-layout row wrap>
+    <v-flex :class="viewType === 'Compact' ? 'xs8' : 'xs12'">
+      <v-layout row wrap>
+        <v-flex xs8>
+          <h1 class="headline ml-5 font-weight-regular">{{TVShows.title}}</h1>
+        </v-flex>
+        <v-flex xs4>
+          <v-select
+          class="mt-0 mr-5"
+          :color="$store.state.darkMode ? 'white' : 'primary'"
+          label="Select View Type"
+          :items="viewTypes"
+          v-model="viewType"
+        ></v-select>
+        </v-flex>
+      </v-layout>
+    </v-flex>
+    <v-flex :class="viewType === 'Compact' ? 'xs8' : 'xs12'">
+      <compact-view  v-if="TVShows.data.length > 0 && viewType === 'Compact'"  type="TV" :showPagination="true" :pageNumber="TVShows.page" :totalPages="TVShows.max_pages" :itemList="TVShows.data"></compact-view>
+      <brief-view  v-if="TVShows.data.length > 0 && viewType === 'Detailed'" type="TV" :showPagination="true" :pageNumber="TVShows.page" :totalPages="TVShows.max_pages" :itemList="TVShows.data"></brief-view>
+    </v-flex>
+    <v-flex class="mt-4" v-if="viewType === 'Compact'" xs4>
+      <top-playlist></top-playlist>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
-import ItemsList from '@/components/Views/ItemsList'
+import BriefView from '@/components/Views/Brief-view'
+import TopPlaylist from '@/components/Playlist/Top10'
+import CompactView from '@/components/Views/Compact-view'
 import { mapGetters } from 'vuex'
 export default {
   name: 'TVShowsList',
   components: {
-    ItemsList
+    BriefView,
+    CompactView,
+    TopPlaylist
   },
+  data: () => ({
+    viewType: 'Compact',
+    viewTypes: [
+      'Compact',
+      'Detailed'
+    ]
+  }),
   computed: {
     ...mapGetters({
       TVShows: 'getTVShowsList'

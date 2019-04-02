@@ -10,7 +10,8 @@
         <div class="custom">
           <h1>CINEFLICK</h1>
         </div>
-        <p>A decentralized platform to keep track of your favourite (and yet to be favourite) movies and tv shows.</p>
+        <p>A decentralized platform to keep track of movies and tv shows.</p>
+        <p>Watch trailers, create playlists, search for your favourite movies or tv shows and so much more.</p>
         <!-- <v-img src="https://raw.githubusercontent.com/sage99/CineFlick/master/public/L3_t1.png"></v-img> -->
         <!-- <v-btn @click="signIn" color="red darken-4" round>Sign in with something</v-btn> -->
         <v-btn large @click="signIn" round>Sign in with blockstack <v-icon right>arrow_forward</v-icon></v-btn>
