@@ -4,17 +4,18 @@
       <v-card class="br20">
         <v-card-title class="headline">Add to Playlist</v-card-title>
         <v-card-text>
-          <v-combobox
+          <v-select
             :items="playlists"
             :color="darkMode ? 'white' : 'primary'"
             label="Select playlist"
             item-text="name"
             v-model="selectedPlaylist"
+            no-data-text="No Playlists found"
             return-object
-          ></v-combobox>
+          ></v-select>
         </v-card-text>
         <v-card-actions>
-          <v-btn :loading="loading" :color="darkMode ? '' : 'primary'" @click="add" round>Add</v-btn>
+          <v-btn :disabled="!(selectedPlaylist && Object.keys(selectedPlaylist).length > 0)" :loading="loading" :color="darkMode ? '' : 'primary'" @click="add" round>Add</v-btn>
           <v-btn flat @click="addToPlaylist = false">cancel</v-btn>
         </v-card-actions>
       </v-card>
@@ -42,6 +43,7 @@ export default {
     eventBus.$on('addToPlaylist', options => {
       this.content = options.data
       this.type = options.type
+      this.selectedPlaylist = null
       this.addToPlaylist = true
     })
   },
@@ -62,7 +64,10 @@ export default {
           'overview': this.content['overview'],
           'poster_path': this.content['poster_path'],
           'release_date': this.content['release_date'],
+          'air_date': this.content['air_date'],
+          'first_air_date': this.content['first_air_date'],
           'title': this.content['title'],
+          'name': this.content['name'],
           'backdrop_path': this.content['backdrop_path'],
           'vote_average': this.content['vote_average'],
           'popularity': this.content['popularity'],

@@ -34,21 +34,11 @@
             </v-card>
           </v-menu>
         <span class="body-2 ml-2">User Score</span>
-        <v-menu class="br20" offset-x right light open-on-hover>
+        <!-- <v-menu class="br20" offset-x right light open-on-hover>
           <v-btn slot="activator" dark class="ml-5" outline fab>
             <v-icon>list</v-icon>
           </v-btn>
           <v-list>
-            <!-- <v-list-tile @click="">
-              <v-list-tile-action>
-                <v-icon color="primary">add</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title text-color="primary">CREATE NEW PLAYLIST</v-list-tile-title>
-                <v-list-tile-sub-title>Create a new playlist and then add this movie.</v-list-tile-sub-title>
-              </v-list-tile-content>
-            </v-list-tile> -->
-            <!-- <v-divider></v-divider> -->
             <v-list-tile @click="eventBus.$emit('addToPlaylist', { data: movieDetails, type: 'movies' })">
               <v-list-tile-action>
                 <v-icon color="primary">add</v-icon>
@@ -57,10 +47,16 @@
                 <v-list-tile-title text-color="primary">ADD TO PLAYLIST</v-list-tile-title>
                 <v-list-tile-sub-title>Add this movie to an already created playlist.</v-list-tile-sub-title>
               </v-list-tile-content>
-              <!-- <v-btn color="primary" flat> <v-icon>add</v-icon> Add to playlist </v-btn> -->
             </v-list-tile>
           </v-list>
-        </v-menu>
+        </v-menu> -->
+
+        <v-tooltip bottom>
+          <v-btn @click="eventBus.$emit('addToPlaylist', { data: movieDetails, type: 'movies' })" slot="activator" dark outline fab>
+            <v-icon>add</v-icon>
+          </v-btn>
+          <span>Add to Playlist</span>
+        </v-tooltip>
 
         <v-tooltip v-if="!watchlistMovieObj[movieDetails.id]" bottom>
           <v-btn @click="addToWatchlist" slot="activator" dark outline fab>

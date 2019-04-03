@@ -5,6 +5,7 @@
       <v-flex d-flex xs12 sm6 xl4  v-for="(item, index) in itemList" :key="index">
         <v-card @click="type === 'TV' ? getTVShowDetails(item, index) :getMovieDetails(item, index)" class="ml-3 mr-3 mt-2 br20" :hover="true">
           <v-layout row>
+            <!-- for image -->
             <v-flex xs12 sm5>
               <v-img
               :src="appendedUrl + item.poster_path"
@@ -31,6 +32,10 @@
                   <div v-else-if="type === 'TV'" class="font-weight-light">({{item.first_air_date.split('-')[0]}})</div>
                   <div v-else class="font-weight-light">{{new Date(item.release_date).toGMTString().split(" ").splice(0,4).join(" ")}}</div>
                 </v-flex>
+                <v-tooltip v-if="showRemoveButton" style="margin-top: -15%;" bottom>
+                  <v-btn @click.stop="$emit('remove', item, index, type)" slot="activator"  icon><v-icon>delete</v-icon></v-btn>
+                  <span>Remove from playlist</span>
+                </v-tooltip>
               </v-layout>
               <v-layout>
                 <v-flex class="mr-1" >
@@ -69,7 +74,7 @@
 import { mapGetters } from 'vuex'
 export default {
   name: 'ItemsList',
-  props: ['itemList', 'showPagination', 'pageNumber', 'totalPages', 'type', 'mode'],
+  props: ['itemList', 'showPagination', 'pageNumber', 'totalPages', 'type', 'mode', 'showRemoveButton'],
   computed: {
     ...mapGetters({
       darkMode: 'darkMode'
@@ -86,6 +91,7 @@ export default {
     }
   },
   methods: {
+    removeFromPlaylist () {},
     color (score) {
       if (score === 0) return 'info'
       let finalScore = score * 10
