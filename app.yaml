@@ -1,0 +1,9 @@
+runtime: nodejs10
+service: 'default'
+env_variables:
+  GCLOUD_STORAGE_BUCKET: cineflick
+handlers:
+- url: /*
+  secure: always
+  redirect_http_response_code: 301
+  script: auto

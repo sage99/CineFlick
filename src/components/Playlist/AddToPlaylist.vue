@@ -63,6 +63,7 @@ export default {
           'original_language': this.content['original_language'],
           'overview': this.content['overview'],
           'poster_path': this.content['poster_path'],
+          'runtime': this.content['runtime'],
           'release_date': this.content['release_date'],
           'air_date': this.content['air_date'],
           'first_air_date': this.content['first_air_date'],

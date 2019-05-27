@@ -1,9 +1,9 @@
 <template>
-  <v-card class="br20">
+  <v-card v-if="finalTop" class="br20">
     <v-card-title class="headline">
       Top Playlists
     </v-card-title>
-    <v-card-text v-if="!topPlaylists.length > 0">
+    <v-card-text v-if="!finalTop.length > 0">
       <div class="mt-5 d-flex justify-center mb-5">
         <v-progress-circular
           :size="50"
@@ -13,8 +13,8 @@
       </div>
     </v-card-text>
     <v-card-text v-else>
-      <v-list two-line >
-        <template v-for="(item, index) in topPlaylists.slice(0,15)"  >
+      <v-list  three-line >
+        <template v-for="(item, index) in finalTop"  >
             <v-divider
               v-if="index"
               :key="index"
@@ -32,10 +32,19 @@
             <v-list-tile-content v-else>
               <v-list-tile-title  >{{item.id.split('/')[2].split('.')[0]}}</v-list-tile-title>
               <v-list-tile-sub-title>{{item.id.split('/')[1]}} ({{new Date(item.timeCreated).toDateString()}})</v-list-tile-sub-title>
+              <v-list-tile-sub-title v-if="item.data">
+                Movies: {{item.data.movies.length}},
+                TV Shows: {{item.data.tv.length}}
+              </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
         </template>
       </v-list>
+    </v-card-text>
+    <v-card-actions>
+    </v-card-actions>
+    <v-card-text class="pt-0">
+      <v-btn class="m3-5 mr-3 mb-0 mt-0" :color="darkMode ? '' : 'primary'"  @click="setPlaylist" :loading="isLoading" round block>see all <v-icon >keyboard_arrow_right</v-icon></v-btn>
     </v-card-text>
   </v-card>
 </template>
@@ -47,14 +56,31 @@ export default {
   name: 'TOP10',
   computed: {
     ...mapGetters({
-      topPlaylists: 'getTopPlaylists'
-    })
+      topPlaylists: 'getTopPlaylists',
+      darkMode: 'darkMode'
+    }),
+    finalTop () {
+      if (this.topPlaylists && Object.keys(this.topPlaylists).length) {
+        return Object.keys(this.topPlaylists).reduce((acc, e) => {
+          // console.log("HYEYEYEYYEYE", this.topPlaylists, this.topPlaylists[e].data)
+          if (this.topPlaylists[e].data && (this.topPlaylists[e].data.movies || this.topPlaylists[e].data.tv)) {
+            if (this.topPlaylists[e].data.movies.length > 2 || this.topPlaylists[e].data.tv.length > 2) {
+              acc.push(this.topPlaylists[e])
+            }
+          }
+          return acc
+        }, []).slice(0, 10)
+      } else return []
+    }
   },
   data: () => ({
-    showLoader: {}
+    showLoader: {},
+    isLoading: false
   }),
   mounted () {
-    this.$store.dispatch('ACTION_GET_TOP_PLAYLISTS')
+    if (!this.finalTop.length) {
+      this.$store.dispatch('ACTION_GET_TOP_PLAYLISTS')
+    }
     for (let i = 0; i < 15; i++) {
       this.$set(this.showLoader, i, false)
     }

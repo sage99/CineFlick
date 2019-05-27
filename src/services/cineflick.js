@@ -3,7 +3,8 @@ const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NksifQ.eyJqdGkiOiJlMDY4MWU2Mi03Nz
 
 // common axios instance for all blockstack api calls with base Url
 const HTTP = axios.create({
-  baseURL: 'https://cineflick.appspot.com',
+  baseURL: 'https://api.cineflick.net',
+  // baseURL: 'http://localhost:3000',
   // params: {
   //   api_key: '13e556517a6530f85508fc4c4c6e1a7d'
   // },
@@ -39,6 +40,9 @@ const cineflickService = {
     return HTTP.post('/delete', playlist)
   },
   getPublicPlaylist: () => {
+    return HTTP.get('/getData')
+  },
+  getPublicPlaylistDetails: () => {
     return HTTP.get('/getData')
   }
 }
